@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+nodebb/node_modules/
+
+# NodeBB
+nodebb/logs/
+nodebb/build/
+nodebb/public/uploads/
+nodebb/.build/
+nodebb/config.json
+
+# Cache
+*.log
+.DS_Store
+.cache/
+.npm/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+
+# Temp files
+*.tmp
+tmp/
