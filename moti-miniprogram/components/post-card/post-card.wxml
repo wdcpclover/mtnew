@@ -1,0 +1,31 @@
+<view class="post-card" bindtap="onTap">
+  <view class="post-card-header">
+    <image class="post-card-avatar" src="{{post.user.picture || '/images/avatar-default.png'}}" mode="aspectFill" />
+    <view class="post-card-info">
+      <text class="post-card-author">{{post.user.username || '匿名用户'}}</text>
+      <text class="post-card-time">{{post.timestampISO || post.timestamp}}</text>
+    </view>
+    <view wx:if="{{post.category}}" class="post-card-tag">{{post.category.name || post.category}}</view>
+  </view>
+
+  <view class="post-card-title">{{post.title}}</view>
+
+  <view wx:if="{{post.teaser || post.content}}" class="post-card-content">
+    {{post.teaser || post.content}}
+  </view>
+
+  <view class="post-card-footer">
+    <view class="post-card-stat">
+      <image src="/images/heart.svg" class="post-card-stat-icon" mode="aspectFit" />
+      <text>{{post.upvotes || post.votes || 0}}</text>
+    </view>
+    <view class="post-card-stat">
+      <image src="/images/comment.svg" class="post-card-stat-icon" mode="aspectFit" />
+      <text>{{post.postcount || post.replyCount || 0}}</text>
+    </view>
+    <view class="post-card-stat">
+      <image src="/images/star.svg" class="post-card-stat-icon" mode="aspectFit" />
+      <text>{{post.viewcount || 0}}</text>
+    </view>
+  </view>
+</view>

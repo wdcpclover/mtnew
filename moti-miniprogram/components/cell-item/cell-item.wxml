@@ -1,0 +1,12 @@
+<view class="cell-item {{border ? 'border' : ''}}" bindtap="onTap">
+  <view class="cell-item-left">
+    <image wx:if="{{icon}}" class="cell-item-icon" src="{{icon}}" mode="aspectFit" />
+    <text class="cell-item-title">{{title}}</text>
+  </view>
+
+  <view class="cell-item-right">
+    <text wx:if="{{value}}" class="cell-item-value">{{value}}</text>
+    <switch wx:if="{{showSwitch}}" checked="{{switchValue}}" bindchange="onSwitchChange" color="#C99C00" />
+    <image wx:if="{{showArrow}}" class="cell-item-arrow" src="/images/arrow-right.svg" mode="aspectFit" />
+  </view>
+</view>

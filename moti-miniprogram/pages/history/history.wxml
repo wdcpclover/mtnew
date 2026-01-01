@@ -1,0 +1,106 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="header-left">
+        <view class="back-btn" bindtap="goBack">
+          <image src="/images/icons/arrow-left.svg" class="back-icon" mode="aspectFit" />
+        </view>
+        <text class="header-title">浏览记录</text>
+      </view>
+      <view class="header-right">
+        <view class="capsule-btn">
+          <image src="/images/icons/more.svg" class="capsule-icon" mode="aspectFit" bindtap="showMore" />
+          <view class="capsule-divider"></view>
+          <image src="/images/icons/menu-dots.svg" class="capsule-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 区块头部 -->
+  <view class="section-bar" style="top: {{navBarHeight}}px;">
+    <view class="section-left">
+      <image src="/images/icons/clock.svg" class="section-icon" mode="aspectFit" />
+      <text class="section-title">浏览历史</text>
+    </view>
+    <view class="edit-btn" bindtap="toggleEditMode">
+      <text>{{isEditMode ? '完成' : '编辑'}}</text>
+    </view>
+  </view>
+
+  <!-- 主内容区 -->
+  <scroll-view
+    class="content-scroll"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    style="padding-top: {{navBarHeight + 48}}px;"
+  >
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{historyList.length === 0}}">
+      <image src="/images/icons/empty.svg" class="empty-icon" mode="aspectFit" />
+      <text class="empty-text">暂无浏览记录</text>
+    </view>
+
+    <!-- 历史记录列表 -->
+    <view class="history-list" wx:else>
+      <!-- 今天 -->
+      <view class="history-group" wx:if="{{todayList.length > 0}}">
+        <text class="group-title">今天</text>
+        <view class="group-items">
+          <view
+            class="history-item {{isEditMode ? 'edit-mode' : ''}}"
+            wx:for="{{todayList}}"
+            wx:key="id"
+            bindtap="{{isEditMode ? '' : 'goToArticle'}}"
+            data-id="{{item.id}}"
+          >
+            <text class="item-title">{{item.title}}</text>
+            <view class="delete-btn" wx:if="{{isEditMode}}" catchtap="deleteItem" data-id="{{item.id}}" data-group="today">
+              <image src="/images/icons/close.svg" class="delete-icon" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 近一周 -->
+      <view class="history-group" wx:if="{{weekList.length > 0}}">
+        <text class="group-title">近一周</text>
+        <view class="group-items">
+          <view
+            class="history-item {{isEditMode ? 'edit-mode' : ''}}"
+            wx:for="{{weekList}}"
+            wx:key="id"
+            bindtap="{{isEditMode ? '' : 'goToArticle'}}"
+            data-id="{{item.id}}"
+          >
+            <text class="item-title">{{item.title}}</text>
+            <view class="delete-btn" wx:if="{{isEditMode}}" catchtap="deleteItem" data-id="{{item.id}}" data-group="week">
+              <image src="/images/icons/close.svg" class="delete-icon" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 近一个月 -->
+      <view class="history-group" wx:if="{{monthList.length > 0}}">
+        <text class="group-title">近一个月</text>
+        <view class="group-items">
+          <view
+            class="history-item {{isEditMode ? 'edit-mode' : ''}}"
+            wx:for="{{monthList}}"
+            wx:key="id"
+            bindtap="{{isEditMode ? '' : 'goToArticle'}}"
+            data-id="{{item.id}}"
+          >
+            <text class="item-title">{{item.title}}</text>
+            <view class="delete-btn" wx:if="{{isEditMode}}" catchtap="deleteItem" data-id="{{item.id}}" data-group="month">
+              <image src="/images/icons/close.svg" class="delete-icon" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

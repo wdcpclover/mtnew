@@ -1,0 +1,254 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+}
+
+/* 顶部导航 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  height: 88rpx;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.back-btn {
+  padding: 16rpx;
+  margin-left: -16rpx;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.header-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-left: 8rpx;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.capsule-btn {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border-radius: 32rpx;
+  padding: 8rpx 16rpx;
+  border: 1rpx solid var(--border-light);
+}
+
+.capsule-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.6;
+}
+
+.capsule-divider {
+  width: 1rpx;
+  height: 24rpx;
+  background-color: var(--border-light);
+  margin: 0 12rpx;
+}
+
+/* 内容滚动区 */
+.content-scroll {
+  height: 100vh;
+}
+
+/* 区块样式 */
+.section {
+  padding: 24rpx 32rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-light);
+  margin-bottom: 8rpx;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.section-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.edit-btn {
+  padding: 8rpx 0;
+}
+
+.edit-btn text {
+  font-size: 28rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  opacity: 0.5;
+  margin-bottom: 32rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: var(--text-tertiary);
+}
+
+/* 收藏列表 */
+.favorites-list {
+  padding-top: 8rpx;
+}
+
+.favorite-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid var(--border-light);
+  transition: all 0.2s ease;
+}
+
+.favorite-item:active {
+  background-color: var(--bg-secondary);
+}
+
+.favorite-item.edit-mode:active {
+  background-color: transparent;
+}
+
+/* 拖拽手柄 */
+.drag-handle {
+  padding: 8rpx;
+  margin-right: 16rpx;
+  opacity: 0.4;
+}
+
+.drag-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* 列表项内容 */
+.item-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.item-bullet {
+  font-size: 32rpx;
+  color: var(--text-primary);
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.item-title {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  line-height: 1.5;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 热门标签 */
+.hot-tag {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+.hot-tag text {
+  font-weight: 500;
+}
+
+/* 删除按钮 */
+.delete-btn {
+  padding: 16rpx;
+  margin-left: 16rpx;
+}
+
+.delete-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.5;
+}
+
+/* Dark Mode */
+.container.dark {
+  --bg-page: #1A1A1A;
+  --bg-card: #1A1A1A;
+  --bg-secondary: #333333;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --color-primary: #D7942B;
+}
+
+/* Light Mode (默认) */
+.container:not(.dark) {
+  --bg-page: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-secondary: #F5F5F5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --border-light: #E5E5E5;
+  --color-primary: #D7942B;
+}

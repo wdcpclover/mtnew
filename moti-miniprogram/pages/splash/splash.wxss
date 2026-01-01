@@ -1,0 +1,74 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  position: relative;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 160rpx;
+  height: 160rpx;
+  background: linear-gradient(135deg, #C99C00 0%, #E8B923 100%);
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+  box-shadow: 0 20rpx 60rpx rgba(201, 156, 0, 0.3);
+}
+
+.logo-image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.app-title {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 16rpx;
+}
+
+.app-subtitle {
+  font-size: 28rpx;
+  color: var(--text-sub);
+}
+
+.loading-text {
+  position: absolute;
+  bottom: 100rpx;
+  font-size: 26rpx;
+  color: var(--text-sub);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}

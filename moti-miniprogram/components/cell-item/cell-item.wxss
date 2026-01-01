@@ -1,0 +1,44 @@
+.cell-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 0;
+  background-color: var(--bg-card);
+}
+
+.cell-item.border {
+  border-bottom: 1rpx solid var(--divider-color);
+}
+
+.cell-item-left {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.cell-item-icon {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.cell-item-title {
+  font-size: 30rpx;
+  color: var(--text-primary);
+}
+
+.cell-item-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.cell-item-value {
+  font-size: 28rpx;
+  color: var(--text-tertiary);
+}
+
+.cell-item-arrow {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.4;
+}

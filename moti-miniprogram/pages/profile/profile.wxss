@@ -1,0 +1,394 @@
+/* 我的页面样式 - 使用全局CSS变量支持深色模式 */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-page);
+}
+
+/* ============ 导航栏 ============ */
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 32rpx;
+  background-color: var(--bg-page);
+}
+
+.nav-left {
+  width: 80rpx;
+}
+
+.back-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-icon {
+  width: 20rpx;
+  height: 34rpx;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-capsule {
+  display: flex;
+  align-items: center;
+  height: 60rpx;
+  padding: 0 20rpx;
+  background-color: var(--capsule-bg);
+  border-radius: 30rpx;
+  border: 1rpx solid var(--border-color);
+}
+
+.capsule-dots {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background-color: var(--text-primary);
+}
+
+.dot.dot-large {
+  width: 16rpx;
+  height: 16rpx;
+}
+
+.capsule-divider {
+  width: 2rpx;
+  height: 32rpx;
+  background-color: var(--border-color);
+  margin: 0 16rpx;
+}
+
+.capsule-icon {
+  width: 32rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-img {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* ============ 用户信息区 ============ */
+.user-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background-color: var(--bg-page);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+}
+
+.user-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.user-subtitle {
+  font-size: 22rpx;
+  color: var(--text-tertiary);
+}
+
+.edit-btn {
+  padding: 12rpx 24rpx;
+  border: 2rpx solid var(--border-color);
+  border-radius: 32rpx;
+  background-color: transparent;
+}
+
+.edit-btn text {
+  font-size: 24rpx;
+  color: var(--text-primary);
+}
+
+.edit-btn:active {
+  background-color: var(--bg-secondary);
+}
+
+/* ============ 阅读进度卡片 ============ */
+.stats-card {
+  display: flex;
+  margin: 16rpx 32rpx;
+  padding: 28rpx 32rpx;
+  background: linear-gradient(135deg, #D7942B 0%, #E5A84B 100%);
+  border-radius: 16rpx;
+}
+
+.stats-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.stats-title {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.progress-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.progress-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.progress-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-top: 4rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #FFFFFF;
+  border-radius: 4rpx;
+}
+
+.stats-divider {
+  width: 2rpx;
+  margin: 0 32rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.stats-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.time-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.time-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.time-unit {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 16rpx;
+}
+
+/* ============ 会员横幅 ============ */
+.member-banner {
+  display: flex;
+  align-items: center;
+  margin: 16rpx 32rpx;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-primary);
+  border-radius: 16rpx;
+  gap: 12rpx;
+}
+
+.member-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.member-text {
+  font-size: 28rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.member-banner:active {
+  opacity: 0.9;
+}
+
+/* ============ 菜单列表 ============ */
+.menu-list {
+  flex: 1;
+  margin-top: 16rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background-color: var(--bg-primary);
+  border-bottom: 2rpx solid var(--divider-color);
+}
+
+.menu-item:active {
+  background-color: var(--bg-secondary);
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.7;
+}
+
+.menu-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.menu-arrow {
+  width: 24rpx;
+  height: 24rpx;
+  opacity: 0.4;
+}
+
+.badge {
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 10rpx;
+  background-color: var(--color-primary);
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge text {
+  font-size: 20rpx;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 开关样式 */
+.dark-switch {
+  transform: scale(0.8);
+}
+
+/* 底部安全区域 */
+.safe-bottom {
+  height: 160rpx;
+  background-color: var(--bg-primary);
+}
+
+/* ============ 底部 TabBar ============ */
+.bottom-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 100rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: var(--bg-primary);
+  border-top: 2rpx solid var(--divider-color);
+}
+
+.bottom-tab-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 16rpx 24rpx 12rpx;
+}
+
+.bottom-tab-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32rpx;
+  height: 4rpx;
+  background-color: var(--color-primary);
+  border-radius: 2rpx;
+}
+
+.bottom-tab-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.bottom-tab-text {
+  font-size: 20rpx;
+  color: var(--tab-color);
+}
+
+.bottom-tab-item.active .bottom-tab-text {
+  color: var(--tab-active-color);
+}

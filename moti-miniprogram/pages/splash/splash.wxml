@@ -1,0 +1,16 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <view class="splash-content">
+    <!-- Logo 图标 -->
+    <view class="logo-wrapper animate-fade-in">
+      <view class="logo-icon">
+        <image src="/images/logo.svg" mode="aspectFit" class="logo-image" />
+      </view>
+      <text class="app-title">Moti 之地</text>
+      <text class="app-subtitle">探索觉醒与自我成长</text>
+    </view>
+  </view>
+
+  <view class="loading-text">
+    <text>正在加载资源...</text>
+  </view>
+</view>

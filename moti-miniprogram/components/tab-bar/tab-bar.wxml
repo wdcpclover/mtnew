@@ -1,0 +1,57 @@
+<view class="tab-bar safe-area-bottom">
+  <view
+    class="tab-bar-item {{current === 0 ? 'active' : ''}}"
+    bindtap="switchTab"
+    data-index="0"
+    data-url="/pages/index/index"
+  >
+    <image
+      class="tab-bar-icon"
+      src="/images/icons/tab-home{{current === 0 ? '-active' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="tab-bar-label">最新</text>
+  </view>
+
+  <view
+    class="tab-bar-item {{current === 1 ? 'active' : ''}}"
+    bindtap="switchTab"
+    data-index="1"
+    data-url="/pages/topics/topics"
+  >
+    <image
+      class="tab-bar-icon"
+      src="/images/icons/tab-topics{{current === 1 ? '-active' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="tab-bar-label">合集</text>
+  </view>
+
+  <view
+    class="tab-bar-item {{current === 2 ? 'active' : ''}}"
+    bindtap="switchTab"
+    data-index="2"
+    data-url="/pages/community/community"
+  >
+    <image
+      class="tab-bar-icon"
+      src="/images/icons/tab-ask{{current === 2 ? '-active' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="tab-bar-label">提问</text>
+  </view>
+
+  <view
+    class="tab-bar-item {{current === 3 ? 'active' : ''}}"
+    bindtap="switchTab"
+    data-index="3"
+    data-url="/pages/profile/profile"
+  >
+    <image
+      class="tab-bar-icon"
+      src="/images/icons/tab-profile{{current === 3 ? '-active' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="tab-bar-label">我的</text>
+  </view>
+</view>

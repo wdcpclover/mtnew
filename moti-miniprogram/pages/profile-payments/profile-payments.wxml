@@ -1,0 +1,62 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <image src="/images/arrow-left.svg" class="back-icon" mode="aspectFit" />
+      </view>
+      <text class="page-title">付款记录</text>
+      <view class="placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 会员状态卡片 -->
+    <view class="status-card">
+      <text class="status-title">产品激活与有效期</text>
+      <view class="status-item">
+        <view class="status-left">
+          <image src="/images/briefcase.svg" class="status-icon" mode="aspectFit" />
+          <text>产品激活</text>
+        </view>
+        <text class="status-value {{vipExpiry ? 'gold' : ''}}">
+          {{vipExpiry ? 'Moti Pro 已激活' : '未激活'}}
+        </text>
+      </view>
+      <view class="status-item no-border">
+        <view class="status-left">
+          <image src="/images/calendar.svg" class="status-icon" mode="aspectFit" />
+          <text>有效期至</text>
+        </view>
+        <text class="status-value mono">{{vipExpiry || '无'}}</text>
+      </view>
+    </view>
+
+    <!-- 兑换码输入 -->
+    <view class="redeem-card">
+      <text class="card-title">兑换码输入</text>
+      <view class="redeem-input-wrapper">
+        <image src="/images/gift.svg" class="redeem-icon" mode="aspectFit" />
+        <input
+          class="redeem-input"
+          placeholder="输入兑换码..."
+          placeholder-class="input-placeholder"
+          value="{{redeemCode}}"
+          bindinput="onRedeemInput"
+        />
+        <button class="redeem-btn" bindtap="handleRedeem">兑换</button>
+      </view>
+    </view>
+
+    <!-- 付款记录列表 -->
+    <view class="records-card">
+      <text class="card-title">付款记录 ({{paymentRecords.length}} 条)</text>
+      <view class="record-item" wx:for="{{paymentRecords}}" wx:key="id">
+        <view class="record-info">
+          <text class="record-product">{{item.product}}</text>
+          <text class="record-date">{{item.date}}</text>
+        </view>
+        <text class="record-amount">{{item.amount}}</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

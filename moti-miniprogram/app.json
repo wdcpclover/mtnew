@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/splash/splash",
+    "pages/auth/auth",
+    "pages/index/index",
+    "pages/topics/topics",
+    "pages/community/community",
+    "pages/profile/profile",
+    "pages/article/article",
+    "pages/profile-info/profile-info",
+    "pages/profile-reading/profile-reading",
+    "pages/profile-payments/profile-payments",
+    "pages/profile-settings/profile-settings",
+    "pages/profile-about/profile-about",
+    "pages/favorites/favorites",
+    "pages/messages/messages",
+    "pages/history/history",
+    "pages/payments/payments"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "Moti 之地",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#C99C00",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "最新"
+      },
+      {
+        "pagePath": "pages/topics/topics",
+        "text": "合集"
+      },
+      {
+        "pagePath": "pages/community/community",
+        "text": "提问"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "tab-bar": "/components/tab-bar/tab-bar",
+    "post-card": "/components/post-card/post-card",
+    "article-card": "/components/article-card/article-card",
+    "loading": "/components/loading/loading",
+    "cell-item": "/components/cell-item/cell-item",
+    "comment-item": "/components/comment-item/comment-item",
+    "m-button": "/components/m-button/m-button",
+    "input-field": "/components/input-field/input-field",
+    "modal": "/components/modal/modal",
+    "action-bar": "/components/action-bar/action-bar"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

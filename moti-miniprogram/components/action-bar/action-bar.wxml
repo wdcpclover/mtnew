@@ -1,0 +1,28 @@
+<view class="action-bar safe-area-bottom">
+  <view class="action-bar-item" bindtap="onLike">
+    <image
+      class="action-bar-icon {{liked ? 'active' : ''}}"
+      src="/images/heart{{liked ? '-filled' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="action-bar-count">{{likeCount || ''}}</text>
+  </view>
+
+  <view class="action-bar-item" bindtap="onBookmark">
+    <image
+      class="action-bar-icon {{bookmarked ? 'active' : ''}}"
+      src="/images/bookmark{{bookmarked ? '-filled' : ''}}.svg"
+      mode="aspectFit"
+    />
+    <text class="action-bar-count">{{bookmarkCount || ''}}</text>
+  </view>
+
+  <view class="action-bar-item" bindtap="onComment">
+    <image class="action-bar-icon" src="/images/comment.svg" mode="aspectFit" />
+    <text class="action-bar-count">{{commentCount || ''}}</text>
+  </view>
+
+  <view class="action-bar-item" bindtap="onShare">
+    <image class="action-bar-icon" src="/images/share.svg" mode="aspectFit" />
+  </view>
+</view>

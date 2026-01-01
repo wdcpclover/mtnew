@@ -1,0 +1,66 @@
+<page class="{{darkMode ? 'dark' : ''}}">
+  <view class="page-container">
+    <!-- 顶部导航 -->
+    <nav-bar title="基本信息" />
+
+    <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="info-card">
+        <!-- 头像 -->
+        <view class="avatar-section">
+          <view class="avatar-wrapper" bindtap="updateAvatar">
+            <image class="avatar" src="{{userInfo.avatarUrl || userInfo.picture || '/images/user.svg'}}" mode="aspectFill" />
+            <view class="avatar-edit">
+              <image src="/images/pen.svg" class="edit-icon" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+
+        <!-- 信息列表 -->
+        <cell-item
+          icon="/images/key.svg"
+          title="用户 ID"
+          value="{{userInfo.uid || userInfo.id || '-'}}"
+        />
+
+        <cell-item
+          icon="/images/tag.svg"
+          title="用户名"
+          value="{{userInfo.username || '-'}}"
+        />
+
+        <cell-item
+          icon="/images/user.svg"
+          title="昵称"
+          value="{{userInfo.nickname || userInfo.displayname || '-'}}"
+          showArrow
+          bindtap="updateNickname"
+        />
+
+        <cell-item
+          icon="/images/zap.svg"
+          title="签名"
+          value="{{userInfo.signature || '暂无签名'}}"
+          showArrow
+          bindtap="updateSignature"
+        />
+
+        <cell-item
+          icon="/images/star.svg"
+          title="等级"
+          value="Lv{{userInfo.level || 1}}"
+        />
+
+        <cell-item
+          icon="/images/calendar.svg"
+          title="注册时间"
+          value="{{userInfo.joindate || '-'}}"
+        />
+
+        <!-- 编辑按钮 -->
+        <m-button type="primary" size="large" bindtap="openEditModal">
+          编辑信息
+        </m-button>
+      </view>
+    </scroll-view>
+  </view>
+</page>

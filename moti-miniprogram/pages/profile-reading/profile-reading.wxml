@@ -1,0 +1,47 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <image src="/images/arrow-left.svg" class="back-icon" mode="aspectFit" />
+      </view>
+      <text class="page-title">阅读进度</text>
+      <view class="placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 总览卡片 -->
+    <view class="overview-card">
+      <text class="overview-title">总览进度</text>
+      <text class="progress-number">{{readingProgress}}%</text>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{readingProgress}}%;"></view>
+      </view>
+      <text class="progress-desc">已完成合集阅读</text>
+    </view>
+
+    <!-- 统计卡片 -->
+    <view class="stats-card">
+      <view class="stat-item">
+        <text class="stat-value">{{themeCount}}</text>
+        <text class="stat-label">完成主题数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{articleCount}}</text>
+        <text class="stat-label">已阅读文章</text>
+      </view>
+    </view>
+
+    <!-- 成就 -->
+    <text class="section-title">我的成就</text>
+    <view class="achievement-card">
+      <view class="achievement-item active">
+        <text>🧘 冥想大师：连续打卡 30 天</text>
+      </view>
+      <view class="achievement-item">
+        <text>📚 知识探索者：阅读合集达到 80%</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

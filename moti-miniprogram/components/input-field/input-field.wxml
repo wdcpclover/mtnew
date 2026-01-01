@@ -1,0 +1,24 @@
+<view class="input-field {{focus ? 'focus' : ''}} {{error ? 'error' : ''}}">
+  <image wx:if="{{icon}}" class="input-field-icon" src="{{icon}}" mode="aspectFit" />
+  <input
+    class="input-field-input"
+    type="{{type}}"
+    password="{{password}}"
+    placeholder="{{placeholder}}"
+    placeholder-class="input-field-placeholder"
+    value="{{value}}"
+    maxlength="{{maxlength}}"
+    focus="{{autoFocus}}"
+    bindinput="onInput"
+    bindfocus="onFocus"
+    bindblur="onBlur"
+    bindconfirm="onConfirm"
+  />
+  <image
+    wx:if="{{clearable && value}}"
+    class="input-field-clear"
+    src="/images/close.svg"
+    mode="aspectFit"
+    bindtap="onClear"
+  />
+</view>

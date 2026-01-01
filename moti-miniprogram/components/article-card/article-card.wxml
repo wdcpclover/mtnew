@@ -1,0 +1,22 @@
+<view class="article-card" bindtap="onTap">
+  <image
+    wx:if="{{showCover && article.thumb}}"
+    class="article-card-cover"
+    src="{{article.thumb}}"
+    mode="aspectFill"
+  />
+
+  <view class="article-card-content">
+    <view class="article-card-title">{{article.title}}</view>
+
+    <view wx:if="{{article.teaser}}" class="article-card-teaser">
+      {{article.teaser}}
+    </view>
+
+    <view class="article-card-meta">
+      <text class="article-card-author">{{article.user.username || '匿名'}}</text>
+      <text class="article-card-dot">·</text>
+      <text class="article-card-stat">{{article.viewcount || 0}} 阅读</text>
+    </view>
+  </view>
+</view>

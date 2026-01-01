@@ -1,0 +1,39 @@
+<page class="{{darkMode ? 'dark' : ''}}">
+  <view class="page-container">
+    <!-- 顶部导航 -->
+    <nav-bar title="关于莫提" />
+
+    <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="about-content">
+        <!-- Logo 和版本 -->
+        <view class="logo-section">
+          <view class="logo-wrapper">
+            <image src="/images/logo.svg" class="logo-image" mode="aspectFit" />
+          </view>
+          <text class="app-name">Moti 之地</text>
+          <text class="app-version">版本号 V1.2.0</text>
+        </view>
+
+        <!-- 介绍文字 -->
+        <view class="intro-section">
+          <text class="intro-text">
+            Moti 致力于成为您的觉醒与自我成长伙伴。我们相信，每个人内在都蕴藏着无限的潜能和智慧。
+          </text>
+          <text class="intro-text">
+            通过精心策划的知识合集和高质量的社区讨论，我们提供了一个安全、专注的环境，帮助您探索自我、管理情绪、优化身心健康，最终实现更深层次的平静与富足。
+          </text>
+        </view>
+
+        <!-- 底部信息 -->
+        <view class="footer-section">
+          <text class="copyright">Copyright 2025 Moti Land. All rights reserved.</text>
+          <view class="links">
+            <text class="link" bindtap="openPrivacy">隐私协议</text>
+            <text class="dot">·</text>
+            <text class="link" bindtap="openTerms">服务条款</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</page>

@@ -1,0 +1,34 @@
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100rpx;
+  background-color: var(--bg-primary);
+  border-top: 1rpx solid var(--divider-color);
+  z-index: 999;
+}
+
+.action-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 32rpx;
+}
+
+.action-bar-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.action-bar-icon.active {
+  filter: none;
+}
+
+.action-bar-count {
+  font-size: 24rpx;
+  color: var(--text-tertiary);
+}

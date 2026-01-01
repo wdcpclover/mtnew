@@ -1,0 +1,66 @@
+.m-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.m-button::after {
+  border: none;
+}
+
+/* 类型 */
+.m-button.primary {
+  background-color: var(--accent-color);
+  color: #FFFFFF;
+}
+
+.m-button.secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.m-button.outline {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 2rpx solid var(--accent-color);
+}
+
+.m-button.text {
+  background-color: transparent;
+  color: var(--accent-color);
+  padding: 0;
+}
+
+/* 尺寸 */
+.m-button.large {
+  height: 96rpx;
+  font-size: 32rpx;
+}
+
+.m-button.medium {
+  height: 80rpx;
+  font-size: 30rpx;
+}
+
+.m-button.small {
+  height: 64rpx;
+  font-size: 26rpx;
+  padding: 0 32rpx;
+}
+
+/* 块级 */
+.m-button.block {
+  display: flex;
+  width: 100%;
+}
+
+/* 禁用 */
+.m-button.disabled {
+  opacity: 0.5;
+}

@@ -1,0 +1,6 @@
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 打开的书本图标 -->
+  <path d="M11 5V17" stroke="#999999" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M11 5C11 5 9 3 6 3C3 3 2 4.5 2 4.5V16.5C2 16.5 3 15 6 15C9 15 11 17 11 17" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11 5C11 5 13 3 16 3C19 3 20 4.5 20 4.5V16.5C20 16.5 19 15 16 15C13 15 11 17 11 17" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

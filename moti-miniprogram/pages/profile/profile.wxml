@@ -1,0 +1,160 @@
+<!-- 我的页面 -->
+<view class="page {{darkMode ? 'dark' : ''}}">
+  <view class="container" style="padding-top: {{statusBarHeight}}px;">
+
+    <!-- 顶部导航栏 -->
+    <view class="nav-header">
+      <view class="nav-left">
+        <view class="back-btn" bindtap="handleBack" wx:if="{{canGoBack}}">
+          <image src="/images/icons/arrow-left{{darkMode ? '-white' : ''}}.svg" class="back-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="nav-center">
+        <text class="nav-title">莫提之地</text>
+      </view>
+      <view class="nav-right">
+        <view class="nav-capsule">
+          <view class="capsule-dots">
+            <view class="dot"></view>
+            <view class="dot dot-large"></view>
+            <view class="dot"></view>
+          </view>
+          <view class="capsule-divider"></view>
+          <view class="capsule-icon">
+            <image src="/images/icons/scan.svg" class="icon-img" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 用户信息区 -->
+    <view class="user-section">
+      <view class="user-info">
+        <image src="{{userAvatar || '/images/default-avatar.png'}}" class="user-avatar" mode="aspectFill" />
+        <view class="user-detail">
+          <text class="user-name">{{userName || '莫提'}}</text>
+          <text class="user-subtitle">兴奋点 How Excited!</text>
+        </view>
+      </view>
+      <view class="edit-btn" bindtap="goToEditProfile">
+        <text>编辑资料</text>
+      </view>
+    </view>
+
+    <!-- 阅读进度卡片 -->
+    <view class="stats-card">
+      <view class="stats-left">
+        <text class="stats-title">阅读进度</text>
+        <view class="progress-row">
+          <text class="progress-label">已读文章</text>
+          <text class="progress-value">{{readArticles}}/{{totalArticles}}</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{progressPercent}}%;"></view>
+        </view>
+      </view>
+      <view class="stats-divider"></view>
+      <view class="stats-right">
+        <text class="stats-title">你已阅读</text>
+        <view class="time-row">
+          <text class="time-value">{{readingHours}}</text>
+          <text class="time-unit">小时</text>
+          <text class="time-value">{{readingDays}}</text>
+          <text class="time-unit">天</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 会员横幅 -->
+    <view class="member-banner" bindtap="goToMembership">
+      <image src="/images/icons/crown.svg" class="member-icon" mode="aspectFit" />
+      <text class="member-text">成为会员 解锁全部内容</text>
+    </view>
+
+    <!-- 菜单列表 -->
+    <scroll-view class="menu-list" scroll-y enhanced show-scrollbar="{{false}}">
+      <!-- 深色模式 -->
+      <view class="menu-item">
+        <view class="menu-left">
+          <image src="/images/icons/moon.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">深色模式</text>
+        </view>
+        <switch class="dark-switch" checked="{{darkMode}}" bindchange="toggleDarkMode" color="#D7942B" />
+      </view>
+
+      <!-- 我的收藏 -->
+      <view class="menu-item" bindtap="goToFavorites">
+        <view class="menu-left">
+          <image src="/images/icons/star-outline.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">我的收藏</text>
+        </view>
+        <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
+      </view>
+
+      <!-- 消息提醒 -->
+      <view class="menu-item" bindtap="goToMessages">
+        <view class="menu-left">
+          <image src="/images/icons/bell.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">消息提醒</text>
+        </view>
+        <view class="menu-right">
+          <view class="badge" wx:if="{{unreadCount > 0}}">
+            <text>{{unreadCount > 99 ? '99+' : unreadCount}}</text>
+          </view>
+          <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
+        </view>
+      </view>
+
+      <!-- 浏览记录 -->
+      <view class="menu-item" bindtap="goToHistory">
+        <view class="menu-left">
+          <image src="/images/icons/clock.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">浏览记录</text>
+        </view>
+        <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
+      </view>
+
+      <!-- 付款记录 -->
+      <view class="menu-item" bindtap="goToPayments">
+        <view class="menu-left">
+          <image src="/images/icons/receipt.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">付款记录</text>
+        </view>
+        <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
+      </view>
+
+      <!-- 设置 -->
+      <view class="menu-item" bindtap="goToSettings">
+        <view class="menu-left">
+          <image src="/images/icons/settings.svg" class="menu-icon" mode="aspectFit" />
+          <text class="menu-text">设置</text>
+        </view>
+        <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
+      </view>
+
+      <!-- 底部安全区域 -->
+      <view class="safe-bottom"></view>
+    </scroll-view>
+
+    <!-- 底部 TabBar -->
+    <view class="bottom-tab-bar">
+      <view class="bottom-tab-item" bindtap="goToHome">
+        <image src="/images/icons/tab-home.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">最新</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToTopics">
+        <image src="/images/icons/tab-topics.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">合集</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToAsk">
+        <image src="/images/icons/tab-ask.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">提问</text>
+      </view>
+      <view class="bottom-tab-item active">
+        <image src="/images/icons/tab-profile-active.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">我的</text>
+      </view>
+    </view>
+
+  </view>
+</view>

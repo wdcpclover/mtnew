@@ -1,0 +1,166 @@
+<!-- 提问页面 - 问题列表 -->
+<view class="page {{darkMode ? 'dark' : ''}}">
+  <view class="container" style="padding-top: {{statusBarHeight}}px;">
+
+    <!-- 顶部导航栏 -->
+    <view class="nav-header">
+      <view class="nav-left">
+        <view class="back-btn" bindtap="handleBack" wx:if="{{canGoBack}}">
+          <image src="/images/icons/arrow-left{{darkMode ? '-white' : ''}}.svg" class="back-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="nav-center">
+        <text class="nav-title">莫提之地</text>
+      </view>
+      <view class="nav-right">
+        <view class="nav-capsule">
+          <view class="capsule-dots">
+            <view class="dot"></view>
+            <view class="dot dot-large"></view>
+            <view class="dot"></view>
+          </view>
+          <view class="capsule-divider"></view>
+          <view class="capsule-icon">
+            <image src="/images/icons/scan.svg" class="icon-img" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 用户信息卡片 -->
+    <view class="user-card">
+      <view class="user-info">
+        <image src="{{userAvatar || '/images/default-avatar.png'}}" class="user-avatar" mode="aspectFill" />
+        <view class="user-detail">
+          <text class="user-name">{{userName || '莫提'}}</text>
+          <text class="user-subtitle">兴奋点 How Excited!</text>
+        </view>
+      </view>
+      <view class="ask-btn" bindtap="openAskModal">
+        <text>发起提问</text>
+      </view>
+      <view class="message-btn" bindtap="goToMessages">
+        <image src="/images/icons/message.svg" class="message-icon" mode="aspectFit" />
+        <view class="badge" wx:if="{{unreadCount > 0}}">
+          <text>{{unreadCount > 99 ? '99+' : unreadCount}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 筛选栏 -->
+    <view class="filter-bar">
+      <text class="filter-title">问题列表</text>
+      <view class="filter-actions">
+        <view class="sort-btn" bindtap="toggleSortMenu">
+          <text>{{sortOptions[currentSort].label}}</text>
+          <image src="/images/icons/arrow-down.svg" class="sort-arrow" mode="aspectFit" />
+        </view>
+        <view class="filter-btn" bindtap="toggleFilterPanel">
+          <text>筛选</text>
+          <image src="/images/icons/filter.svg" class="filter-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 话题筛选面板 -->
+    <view class="topic-filter-panel" wx:if="{{showFilterPanel}}">
+      <text class="topic-label">话题</text>
+      <view class="topic-tags">
+        <view
+          class="topic-tag {{selectedTopics.includes(item.id) ? 'active' : ''}}"
+          wx:for="{{topics}}"
+          wx:key="id"
+          bindtap="toggleTopic"
+          data-id="{{item.id}}"
+        >
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 问题列表 -->
+    <scroll-view
+      class="question-list"
+      scroll-y
+      enhanced
+      show-scrollbar="{{false}}"
+      refresher-enabled
+      refresher-triggered="{{refreshing}}"
+      bindrefresherrefresh="onRefresh"
+      bindscrolltolower="loadMore"
+    >
+      <view class="list-inner">
+        <view
+          class="question-item {{item.isRead ? 'read' : ''}}"
+          wx:for="{{questions}}"
+          wx:key="id"
+          bindtap="openQuestion"
+          data-id="{{item.id}}"
+        >
+          <view class="vote-count {{item.isHot ? 'hot' : ''}}">
+            <image src="/images/icons/arrow-up-vote.svg" class="vote-icon" mode="aspectFit" />
+            <text>{{item.voteCount}}</text>
+          </view>
+          <text class="question-title">{{item.title}}</text>
+        </view>
+      </view>
+
+      <!-- 加载状态 -->
+      <view class="loading-wrapper" wx:if="{{loading}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">加载中...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-wrapper" wx:if="{{!loading && questions.length === 0}}">
+        <image src="/images/icons/empty.svg" class="empty-icon" mode="aspectFit" />
+        <text class="empty-text">暂无问题</text>
+      </view>
+
+      <!-- 没有更多 -->
+      <view class="no-more" wx:if="{{!hasMore && questions.length > 0}}">
+        <text>没有更多了</text>
+      </view>
+
+      <!-- 底部安全区域 -->
+      <view class="safe-bottom"></view>
+    </scroll-view>
+
+    <!-- 排序菜单 -->
+    <view class="sort-menu" wx:if="{{showSortMenu}}" bindtap="hideSortMenu">
+      <view class="sort-menu-content" catchtap="preventBubble">
+        <view
+          class="sort-option {{currentSort === index ? 'active' : ''}}"
+          wx:for="{{sortOptions}}"
+          wx:key="value"
+          bindtap="selectSort"
+          data-index="{{index}}"
+        >
+          <text>{{item.label}}</text>
+          <image wx:if="{{currentSort === index}}" src="/images/icons/check.svg" class="check-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部 TabBar -->
+    <view class="bottom-tab-bar">
+      <view class="bottom-tab-item" bindtap="goToHome">
+        <image src="/images/icons/tab-home.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">最新</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToTopics">
+        <image src="/images/icons/tab-topics.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">合集</text>
+      </view>
+      <view class="bottom-tab-item active">
+        <image src="/images/icons/tab-ask-active.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">提问</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToProfile">
+        <image src="/images/icons/tab-profile.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">我的</text>
+      </view>
+    </view>
+
+  </view>
+</view>

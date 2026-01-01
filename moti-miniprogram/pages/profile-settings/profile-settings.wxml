@@ -1,0 +1,58 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <image src="/images/arrow-left.svg" class="back-icon" mode="aspectFit" />
+      </view>
+      <text class="page-title">设置</text>
+      <view class="placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 通知设置 -->
+    <text class="section-title">通知提醒</text>
+    <view class="setting-card">
+      <view class="setting-item">
+        <view class="setting-left">
+          <image src="/images/bell.svg" class="setting-icon" mode="aspectFit" />
+          <text>接收推送通知</text>
+        </view>
+        <switch
+          checked="{{notificationEnabled}}"
+          bindchange="toggleNotification"
+          color="#C99C00"
+        />
+      </view>
+    </view>
+
+    <!-- 界面设置 -->
+    <text class="section-title">界面设置</text>
+    <view class="setting-card">
+      <view class="setting-item">
+        <view class="setting-left">
+          <image src="/images/{{darkMode ? 'sun' : 'moon'}}.svg" class="setting-icon" mode="aspectFit" />
+          <text>深色模式/浅色模式</text>
+        </view>
+        <switch
+          checked="{{darkMode}}"
+          bindchange="toggleDarkMode"
+          color="#3b82f6"
+        />
+      </view>
+    </view>
+
+    <!-- 应用信息 -->
+    <text class="section-title">应用信息</text>
+    <view class="setting-card">
+      <view class="setting-item">
+        <text class="setting-label">版本号</text>
+        <text class="setting-value">V1.2.0 (Build 20251204)</text>
+      </view>
+      <view class="setting-item" bindtap="contactService">
+        <text class="setting-label">联系客服</text>
+        <image src="/images/arrow-right.svg" class="arrow-icon" mode="aspectFit" />
+      </view>
+    </view>
+  </scroll-view>
+</view>

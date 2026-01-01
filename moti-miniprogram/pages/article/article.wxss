@@ -1,0 +1,515 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+}
+
+/* 顶部导航 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  border-bottom: 1rpx solid var(--border-light);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  height: 88rpx;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+}
+
+.back-btn {
+  padding: 16rpx;
+  margin-left: -16rpx;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.header-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-left: 8rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.header-icon {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.6;
+}
+
+.capsule-btn {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border-radius: 32rpx;
+  padding: 8rpx 16rpx;
+  border: 1rpx solid var(--border-light);
+}
+
+.capsule-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.6;
+}
+
+.capsule-divider {
+  width: 1rpx;
+  height: 24rpx;
+  background-color: var(--border-light);
+  margin: 0 12rpx;
+}
+
+/* 文章滚动区 */
+.article-scroll {
+  height: 100vh;
+}
+
+.article-content {
+  padding: 32rpx 32rpx 200rpx;
+}
+
+/* 文章标题 */
+.article-title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 32rpx;
+  display: block;
+}
+
+/* 提问区块 */
+.question-block {
+  margin-bottom: 40rpx;
+}
+
+.question-label {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 24rpx;
+  font-weight: 500;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
+}
+
+.question-content {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.author-name {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.question-text {
+  color: var(--text-primary);
+}
+
+/* 文章正文 */
+.article-body {
+  margin-bottom: 48rpx;
+}
+
+.paragraph {
+  margin-bottom: 32rpx;
+}
+
+.paragraph-text {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  line-height: 2;
+}
+
+.author-paragraph {
+  display: block;
+}
+
+.author-highlight {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.article-text {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+/* 互动区 */
+.engagement-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 0;
+  border-top: 1rpx solid var(--border-light);
+  border-bottom: 1rpx solid var(--border-light);
+  margin-bottom: 32rpx;
+}
+
+.inspire-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.inspire-btn.active {
+  background-color: #388E3C;
+}
+
+.inspire-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.readers-section {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.reader-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.reader-avatar {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--bg-card);
+}
+
+.reader-count {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+/* 留言区 */
+.comments-section {
+  margin-top: 16rpx;
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.comments-count {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.write-comment-btn {
+  color: var(--color-primary);
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 留言列表 */
+.comment-list {
+  margin-top: 24rpx;
+}
+
+.comment-item {
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.comment-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: var(--bg-secondary);
+}
+
+.comment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8rpx;
+}
+
+.comment-user {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.comment-badge {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  font-weight: 500;
+}
+
+.comment-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.comment-date {
+  font-size: 24rpx;
+  color: var(--text-tertiary);
+}
+
+.comment-body {
+  margin-bottom: 16rpx;
+}
+
+.comment-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.show-more {
+  margin-top: 8rpx;
+}
+
+.show-more text {
+  font-size: 26rpx;
+  color: var(--text-link);
+}
+
+.comment-actions {
+  display: flex;
+  gap: 40rpx;
+}
+
+.comment-action {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.comment-action .action-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.5;
+}
+
+.comment-action .action-icon.liked {
+  opacity: 1;
+}
+
+.comment-action text {
+  font-size: 24rpx;
+  color: var(--text-tertiary);
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  padding: 32rpx 0;
+}
+
+.load-more text {
+  font-size: 26rpx;
+  color: var(--text-tertiary);
+}
+
+/* 复制弹窗 */
+.copy-popup {
+  position: fixed;
+  background-color: #333333;
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10rpx);
+  transition: all 0.2s ease;
+  z-index: 200;
+}
+
+.copy-popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.copy-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.copy-btn text {
+  font-size: 26rpx;
+  color: #FFFFFF;
+}
+
+/* 留言输入遮罩层 */
+.comment-input-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.comment-input-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.comment-input-container {
+  background-color: var(--bg-card);
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 32rpx;
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.comment-input-overlay.show .comment-input-container {
+  transform: translateY(0);
+}
+
+.input-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background-color: var(--bg-secondary);
+  border-radius: 16rpx;
+  padding: 16rpx 24rpx;
+}
+
+.input-icon {
+  width: 44rpx;
+  height: 44rpx;
+  opacity: 0.5;
+}
+
+.comment-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.input-placeholder {
+  color: var(--text-tertiary);
+}
+
+.input-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.input-preview {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.preview-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.submit-btn {
+  background-color: var(--bg-secondary);
+  color: var(--text-tertiary);
+  padding: 16rpx 40rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.submit-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* Dark Mode */
+.container.dark {
+  --bg-page: #1A1A1A;
+  --bg-card: #242424;
+  --bg-secondary: #333333;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --text-link: #D7942B;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --color-primary: #D7942B;
+}
+
+/* Light Mode (默认) */
+.container:not(.dark) {
+  --bg-page: #F5F5F5;
+  --bg-card: #FFFFFF;
+  --bg-secondary: #F0F0F0;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-link: #D7942B;
+  --border-light: #E5E5E5;
+  --color-primary: #D7942B;
+}

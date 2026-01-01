@@ -1,0 +1,24 @@
+<view class="loading-container">
+  <!-- 加载中 -->
+  <view wx:if="{{status === 'loading'}}" class="loading-content">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
+  <!-- 空数据 -->
+  <view wx:elif="{{status === 'empty'}}" class="loading-content">
+    <view class="loading-empty-icon">
+      <text class="loading-empty-text">空</text>
+    </view>
+    <text class="loading-text">{{emptyText}}</text>
+  </view>
+
+  <!-- 加载失败 -->
+  <view wx:elif="{{status === 'error'}}" class="loading-content">
+    <view class="loading-error-icon">
+      <text class="loading-error-text">!</text>
+    </view>
+    <text class="loading-text">{{errorText}}</text>
+    <view class="loading-retry" bindtap="onRetry">重新加载</view>
+  </view>
+</view>

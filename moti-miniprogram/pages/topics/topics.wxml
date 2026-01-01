@@ -1,0 +1,174 @@
+<!-- 合集页面 - 章节列表 -->
+<view class="page {{darkMode ? 'dark' : ''}}">
+  <view class="container" style="padding-top: {{statusBarHeight}}px;">
+
+    <!-- 顶部导航栏 -->
+    <view class="nav-header">
+      <view class="nav-left">
+        <view class="back-btn" bindtap="handleBack" wx:if="{{canGoBack}}">
+          <image src="/images/icons/arrow-left{{darkMode ? '-white' : ''}}.svg" class="back-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="nav-center">
+        <text class="nav-title">莫提之地</text>
+      </view>
+      <view class="nav-right">
+        <view class="nav-capsule">
+          <view class="capsule-dots">
+            <view class="dot"></view>
+            <view class="dot dot-large"></view>
+            <view class="dot"></view>
+          </view>
+          <view class="capsule-divider"></view>
+          <view class="capsule-icon">
+            <image src="/images/icons/scan.svg" class="icon-img" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <view class="search-input-wrapper {{isSearching ? 'active' : ''}}">
+        <image src="/images/icons/search.svg" class="search-icon" mode="aspectFit" />
+        <input
+          class="search-input"
+          placeholder="搜索..."
+          placeholder-class="search-placeholder"
+          value="{{searchValue}}"
+          bindinput="onSearchInput"
+          bindfocus="onSearchFocus"
+          bindconfirm="onSearchConfirm"
+          focus="{{isSearching}}"
+        />
+        <view class="search-clear" wx:if="{{searchValue}}" bindtap="clearSearch">
+          <image src="/images/icons/close-circle.svg" class="clear-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="message-btn" bindtap="goToMessages">
+        <image src="/images/icons/message.svg" class="message-icon" mode="aspectFit" />
+        <view class="badge" wx:if="{{unreadCount > 0}}">
+          <text>{{unreadCount > 99 ? '99+' : unreadCount}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索建议下拉框 -->
+    <view class="search-suggestions" wx:if="{{showSuggestions && suggestions.length > 0}}">
+      <view
+        class="suggestion-item"
+        wx:for="{{suggestions}}"
+        wx:key="id"
+        bindtap="selectSuggestion"
+        data-item="{{item}}"
+      >
+        <view class="suggestion-text">
+          <text class="keyword">{{searchValue}}</text><text class="rest">{{item.rest}}</text>
+        </view>
+        <image src="/images/icons/arrow-right-small.svg" class="suggestion-arrow" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- 搜索遮罩 -->
+    <view class="search-mask" wx:if="{{showSuggestions}}" bindtap="hideSearch"></view>
+
+    <!-- 筛选栏 -->
+    <view class="filter-bar">
+      <view class="filter-left">
+        <text class="filter-label">章节</text>
+        <view class="checkbox {{chapterMode ? 'checked' : ''}}" bindtap="toggleChapterMode">
+          <view class="checkbox-inner" wx:if="{{chapterMode}}"></view>
+        </view>
+      </view>
+      <view class="filter-right" bindtap="toggleExpandAll">
+        <text class="expand-text">{{isAllExpanded ? '收起全部' : '展开全部'}}</text>
+        <image
+          src="/images/icons/arrow-{{isAllExpanded ? 'up' : 'down'}}.svg"
+          class="expand-icon"
+          mode="aspectFit"
+        />
+      </view>
+    </view>
+
+    <!-- 内容列表 -->
+    <scroll-view
+      class="content-list"
+      scroll-y
+      enhanced
+      show-scrollbar="{{false}}"
+      refresher-enabled
+      refresher-triggered="{{refreshing}}"
+      bindrefresherrefresh="onRefresh"
+    >
+      <view class="list-inner">
+        <!-- 章节项 -->
+        <view
+          class="chapter-item {{item.isActive ? 'active' : ''}} {{item.isExpanded ? 'expanded' : ''}}"
+          wx:for="{{chapters}}"
+          wx:key="id"
+        >
+          <!-- 章节头部（始终显示） -->
+          <view class="chapter-header" bindtap="toggleChapter" data-index="{{index}}">
+            <view class="chapter-category">
+              <view class="category-indicator" wx:if="{{item.isActive}}"></view>
+              <text class="category-text {{item.isActive ? 'active' : ''}}">{{item.category}}</text>
+            </view>
+            <text class="chapter-title">{{item.title}}</text>
+          </view>
+
+          <!-- 展开的文章列表 -->
+          <view class="article-list" wx:if="{{item.isExpanded && item.articles.length > 0}}">
+            <view
+              class="article-item {{article.isRead ? 'read' : ''}}"
+              wx:for="{{item.articles}}"
+              wx:for-item="article"
+              wx:for-index="articleIndex"
+              wx:key="id"
+              bindtap="openArticle"
+              data-chapter-index="{{index}}"
+              data-article-index="{{articleIndex}}"
+            >
+              <text class="article-title">{{article.title}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 加载状态 -->
+      <view class="loading-wrapper" wx:if="{{loading}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">加载中...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-wrapper" wx:if="{{!loading && chapters.length === 0}}">
+        <image src="/images/icons/empty.svg" class="empty-icon" mode="aspectFit" />
+        <text class="empty-text">暂无内容</text>
+      </view>
+
+      <!-- 底部安全区域 -->
+      <view class="safe-bottom"></view>
+    </scroll-view>
+
+    <!-- 底部 TabBar -->
+    <view class="bottom-tab-bar">
+      <view class="bottom-tab-item" bindtap="goToHome">
+        <image src="/images/icons/tab-home.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">最新</text>
+      </view>
+      <view class="bottom-tab-item active">
+        <image src="/images/icons/tab-topics-active.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">合集</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToAsk">
+        <image src="/images/icons/tab-ask.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">提问</text>
+      </view>
+      <view class="bottom-tab-item" bindtap="goToProfile">
+        <image src="/images/icons/tab-profile.svg" class="bottom-tab-icon" mode="aspectFit" />
+        <text class="bottom-tab-text">我的</text>
+      </view>
+    </view>
+
+  </view>
+</view>

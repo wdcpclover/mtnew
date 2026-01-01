@@ -1,0 +1,11 @@
+<button
+  class="m-button {{type}} {{size}} {{block ? 'block' : ''}} {{disabled ? 'disabled' : ''}}"
+  disabled="{{disabled}}"
+  loading="{{loading}}"
+  open-type="{{openType}}"
+  bindtap="onTap"
+  bindgetuserinfo="onGetUserInfo"
+  bindgetphonenumber="onGetPhoneNumber"
+>
+  <slot></slot>
+</button>

@@ -1,0 +1,23 @@
+<view class="comment-item">
+  <image class="comment-avatar" src="{{comment.user.picture || '/images/user.svg'}}" mode="aspectFill" />
+
+  <view class="comment-content">
+    <view class="comment-header">
+      <text class="comment-author">{{comment.user.username || '匿名用户'}}</text>
+      <text class="comment-time">{{comment.timestampISO || comment.timestamp}}</text>
+    </view>
+
+    <view class="comment-text">{{comment.content}}</view>
+
+    <view class="comment-actions">
+      <view class="comment-action" bindtap="onLike">
+        <image src="/images/heart{{comment.upvoted ? '-filled' : ''}}.svg" class="comment-action-icon" mode="aspectFit" />
+        <text>{{comment.upvotes || 0}}</text>
+      </view>
+      <view class="comment-action" bindtap="onReply">
+        <image src="/images/comment.svg" class="comment-action-icon" mode="aspectFit" />
+        <text>回复</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,157 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="header-left">
+        <view class="back-btn" bindtap="goBack">
+          <image src="/images/icons/arrow-left.svg" class="back-icon" mode="aspectFit" />
+        </view>
+        <text class="header-title">{{article.title || '文章详情'}}</text>
+      </view>
+      <view class="header-right">
+        <image src="/images/icons/more.svg" class="header-icon" mode="aspectFit" bindtap="showMore" />
+        <view class="capsule-btn">
+          <image src="/images/icons/share.svg" class="capsule-icon" mode="aspectFit" bindtap="shareArticle" />
+          <view class="capsule-divider"></view>
+          <image src="/images/icons/menu-dots.svg" class="capsule-icon" mode="aspectFit" bindtap="showMenu" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 文章内容 -->
+  <scroll-view class="article-scroll" scroll-y enhanced show-scrollbar="{{false}}" style="padding-top: {{statusBarHeight + 88}}rpx;">
+    <view class="article-content">
+      <!-- 文章标题 -->
+      <text class="article-title">{{article.displayTitle || article.title}}</text>
+
+      <!-- 提问区块 -->
+      <view class="question-block" wx:if="{{article.question}}">
+        <view class="question-label">提问:</view>
+        <view class="question-content">
+          <text class="author-name">{{article.questionAuthor || '金念'}}</text>
+          <text class="question-text">{{article.question}}</text>
+        </view>
+      </view>
+
+      <!-- 文章正文 -->
+      <view class="article-body">
+        <block wx:for="{{article.paragraphs}}" wx:key="index">
+          <view class="paragraph" wx:if="{{item.type === 'normal'}}">
+            <text class="paragraph-text">{{item.content}}</text>
+          </view>
+          <view class="paragraph author-paragraph" wx:elif="{{item.type === 'author'}}">
+            <text class="author-highlight">{{item.author}}</text>
+            <text class="paragraph-text">{{item.content}}</text>
+          </view>
+        </block>
+        <!-- 简单文本形式 -->
+        <text class="article-text" wx:if="{{article.content && !article.paragraphs}}">{{article.content}}</text>
+      </view>
+
+      <!-- 互动区 -->
+      <view class="engagement-section">
+        <view class="inspire-btn {{hasInspired ? 'active' : ''}}" bindtap="toggleInspire">
+          <image src="/images/icons/inspire.svg" class="inspire-icon" mode="aspectFit" />
+          <text>有启发</text>
+        </view>
+        <view class="readers-section">
+          <view class="reader-avatars">
+            <image
+              wx:for="{{readerAvatars}}"
+              wx:key="index"
+              src="{{item}}"
+              class="reader-avatar"
+              style="margin-left: {{index > 0 ? '-16rpx' : '0'}};"
+              mode="aspectFill"
+            />
+          </view>
+          <text class="reader-count">{{readerCount}}+</text>
+        </view>
+      </view>
+
+      <!-- 留言区 -->
+      <view class="comments-section">
+        <view class="comments-header">
+          <text class="comments-count">{{comments.length}} 留言</text>
+          <view class="write-comment-btn" bindtap="openCommentInput">
+            <text>写留言</text>
+          </view>
+        </view>
+
+        <!-- 留言列表 -->
+        <view class="comment-list">
+          <view class="comment-item" wx:for="{{comments}}" wx:key="id">
+            <image src="{{item.avatar}}" class="comment-avatar" mode="aspectFill" />
+            <view class="comment-main">
+              <view class="comment-header">
+                <view class="comment-user">
+                  <text class="comment-badge" wx:if="{{item.badge}}">{{item.badge}}</text>
+                  <text class="comment-name">{{item.author}}</text>
+                </view>
+                <text class="comment-date">{{item.date}}</text>
+              </view>
+              <view class="comment-body">
+                <text class="comment-text" user-select="{{true}}" bindlongpress="onTextLongPress" data-text="{{item.content}}">{{item.content}}</text>
+                <view class="show-more" wx:if="{{item.hasMore}}" bindtap="showMoreComment" data-id="{{item.id}}">
+                  <text>显示更多...</text>
+                </view>
+              </view>
+              <view class="comment-actions">
+                <view class="comment-action" bindtap="replyComment" data-id="{{item.id}}">
+                  <image src="/images/icons/comment.svg" class="action-icon" mode="aspectFit" />
+                  <text wx:if="{{item.replyCount > 0}}">{{item.replyCount}}</text>
+                </view>
+                <view class="comment-action" bindtap="likeComment" data-id="{{item.id}}">
+                  <image src="/images/icons/{{item.isLiked ? 'heart-filled' : 'heart'}}.svg" class="action-icon {{item.isLiked ? 'liked' : ''}}" mode="aspectFit" />
+                  <text>{{item.likeCount}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 加载更多 -->
+        <view class="load-more" wx:if="{{hasMoreComments}}" bindtap="loadMoreComments">
+          <text>加载更多留言</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 文本选择弹窗 -->
+  <view class="copy-popup {{showCopyPopup ? 'show' : ''}}" style="top: {{copyPopupTop}}rpx; left: {{copyPopupLeft}}rpx;">
+    <view class="copy-btn" bindtap="copyText">
+      <image src="/images/icons/copy.svg" class="copy-icon" mode="aspectFit" />
+      <text>复制</text>
+    </view>
+  </view>
+
+  <!-- 留言输入框 -->
+  <view class="comment-input-overlay {{showCommentInput ? 'show' : ''}}" bindtap="closeCommentInput">
+    <view class="comment-input-container" catchtap="preventClose">
+      <view class="input-header">
+        <image src="/images/icons/emoji.svg" class="input-icon" mode="aspectFit" bindtap="showEmoji" />
+        <input
+          class="comment-input"
+          placeholder="写留言..."
+          placeholder-class="input-placeholder"
+          value="{{commentText}}"
+          bindinput="onCommentInput"
+          focus="{{showCommentInput}}"
+          adjust-position="{{false}}"
+          cursor-spacing="20"
+        />
+        <image src="/images/icons/image.svg" class="input-icon" mode="aspectFit" bindtap="chooseImage" />
+      </view>
+      <view class="input-footer">
+        <view class="input-preview" wx:if="{{commentPreview}}">
+          <text class="preview-text">{{commentPreview}}</text>
+        </view>
+        <view class="submit-btn {{commentText ? 'active' : ''}}" bindtap="submitComment">
+          <text>发表</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

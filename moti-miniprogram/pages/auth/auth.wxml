@@ -1,0 +1,210 @@
+<!-- 登录页面 - 6个步骤完整流程 -->
+<view class="page {{darkMode ? 'dark' : ''}}">
+  <view class="auth-container" style="padding-top: {{statusBarHeight}}px;">
+
+    <!-- 顶部导航栏 -->
+    <view class="nav-header">
+      <view class="nav-left">
+        <view class="back-btn" bindtap="handleBack" wx:if="{{loginState !== 'login1' || canGoBack}}">
+          <image src="/images/icons/arrow-left.svg" class="back-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="nav-center">
+        <text class="nav-title">莫提之地</text>
+      </view>
+      <view class="nav-right">
+        <view class="status-pill" wx:if="{{loginState === 'login1'}}">
+          <view class="status-dots">
+            <view class="dot"></view>
+            <view class="dot dot-large"></view>
+            <view class="dot"></view>
+          </view>
+          <view class="status-divider"></view>
+          <view class="status-icon">
+            <image src="/images/icons/scan.svg" class="scan-icon" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="nav-divider"></view>
+
+    <!-- ========== 主体内容 ========== -->
+    <view class="auth-content">
+
+      <!-- ===== login1: 主入口 ===== -->
+      <block wx:if="{{loginState === 'login1'}}">
+        <view class="logo-wrapper">
+          <image src="/images/logo.svg" class="logo" mode="aspectFit" />
+        </view>
+        <view class="welcome-text">
+          <text class="welcome-line">进入莫提之地，开启觉知生活</text>
+        </view>
+        <view class="btn-group">
+          <button class="btn btn-secondary" bindtap="goPhoneLogin">
+            <image src="/images/icons/phone-outline.svg" class="btn-icon" mode="aspectFit" />
+            <text>手机号登录</text>
+          </button>
+          <button class="btn btn-primary" bindtap="goWechatAuth">
+            <image src="/images/icons/wechat-white.svg" class="btn-icon" mode="aspectFit" />
+            <text>微信一键登录</text>
+          </button>
+        </view>
+      </block>
+
+      <!-- ===== login2: 手机号+验证码登录 ===== -->
+      <block wx:if="{{loginState === 'login2'}}">
+        <view class="logo-wrapper">
+          <image src="/images/logo.svg" class="logo" mode="aspectFit" />
+        </view>
+        <view class="welcome-text">
+          <text class="welcome-line">进入莫提之地，开启觉知生活</text>
+        </view>
+        <view class="form-group-line">
+          <!-- 手机号输入 -->
+          <view class="input-line">
+            <input
+              class="input-line-field"
+              type="number"
+              maxlength="11"
+              placeholder="请输入手机号码"
+              placeholder-class="input-line-placeholder"
+              value="{{phone}}"
+              bindinput="onPhoneInput"
+            />
+          </view>
+          <!-- 验证码输入 -->
+          <view class="input-line">
+            <input
+              class="input-line-field"
+              type="number"
+              maxlength="6"
+              placeholder="请输入收到的验证码"
+              placeholder-class="input-line-placeholder"
+              value="{{code}}"
+              bindinput="onCodeInput"
+            />
+            <view class="send-code-btn" bindtap="sendCode">
+              <text class="send-code-text {{countdown > 0 ? 'disabled' : ''}}">
+                {{countdown > 0 ? '已发送 (' + countdown + 's)' : '发送验证码'}}
+              </text>
+            </view>
+          </view>
+          <!-- 错误提示 -->
+          <view class="error-tip" wx:if="{{errorMsg}}">
+            <image src="/images/icons/warning.svg" class="error-icon" mode="aspectFit" />
+            <text class="error-text">{{errorMsg}}</text>
+          </view>
+          <!-- 底部按钮 -->
+          <view class="login-btn-group">
+            <view class="wechat-btn" bindtap="goWechatAuth">
+              <image src="/images/icons/wechat.svg" class="wechat-icon" mode="aspectFit" />
+            </view>
+            <button class="btn btn-primary login-btn" bindtap="submitPhoneLogin" disabled="{{!canLogin}}">
+              <text>登录</text>
+            </button>
+          </view>
+        </view>
+      </block>
+
+      <!-- ===== login4: 微信授权确认 ===== -->
+      <block wx:if="{{loginState === 'login4'}}">
+        <view class="logo-wrapper">
+          <image src="/images/logo.svg" class="logo" mode="aspectFit" />
+        </view>
+        <view class="welcome-text">
+          <text class="welcome-line">微信授权登录</text>
+          <text class="welcome-desc">授权后可使用微信账号快速登录</text>
+        </view>
+        <view class="btn-group">
+          <button class="btn btn-primary" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" loading="{{loading}}">
+            <image src="/images/icons/wechat-white.svg" class="btn-icon" mode="aspectFit" wx:if="{{!loading}}" />
+            <text>确认微信授权</text>
+          </button>
+          <button class="btn btn-text" bindtap="cancelWechatAuth">
+            <text>取消</text>
+          </button>
+        </view>
+      </block>
+
+      <!-- ===== login5: 用户信息授权 ===== -->
+      <block wx:if="{{loginState === 'login5'}}">
+        <view class="logo-wrapper">
+          <view class="avatar-placeholder">
+            <image src="/images/icons/user.svg" class="avatar-icon" mode="aspectFit" />
+          </view>
+        </view>
+        <view class="welcome-text">
+          <text class="welcome-line">获取用户信息</text>
+          <text class="welcome-desc">为了更好的体验，需要获取您的昵称和头像</text>
+        </view>
+        <view class="btn-group">
+          <button
+            class="btn btn-primary"
+            open-type="chooseAvatar"
+            bindchooseavatar="onChooseAvatar"
+          >
+            <text>允许获取</text>
+          </button>
+          <button class="btn btn-text" bindtap="skipUserInfo">
+            <text>暂时跳过</text>
+          </button>
+        </view>
+      </block>
+
+      <!-- ===== login6: 完善信息 ===== -->
+      <block wx:if="{{loginState === 'login6'}}">
+        <view class="logo-wrapper">
+          <view class="avatar-wrapper" bindtap="chooseAvatar">
+            <image
+              src="{{userInfo.avatar || '/images/icons/user.svg'}}"
+              class="avatar-img {{userInfo.avatar ? '' : 'placeholder'}}"
+              mode="aspectFill"
+            />
+            <view class="avatar-edit">
+              <image src="/images/icons/camera.svg" class="camera-icon" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+        <view class="welcome-text">
+          <text class="welcome-line">完善个人信息</text>
+        </view>
+        <view class="form-group">
+          <view class="input-box">
+            <text class="input-label">昵称</text>
+            <input
+              class="input"
+              type="nickname"
+              placeholder="请输入昵称"
+              placeholder-class="input-placeholder"
+              value="{{userInfo.nickname}}"
+              bindinput="onNicknameInput"
+            />
+          </view>
+          <button
+            class="btn btn-primary"
+            bindtap="completeProfile"
+            disabled="{{!userInfo.nickname}}"
+          >
+            <text>完成</text>
+          </button>
+        </view>
+      </block>
+
+    </view>
+
+    <!-- ========== 底部区域 ========== -->
+    <view class="auth-footer">
+      <view class="skip-btn" bindtap="handleSkip" wx:if="{{loginState === 'login1' || loginState === 'login2'}}">
+        <text>暂不登录，先逛逛</text>
+      </view>
+      <view class="agreement" wx:if="{{loginState === 'login1' || loginState === 'login2' || loginState === 'login4'}}">
+        <text class="agreement-text">登录即表示同意</text>
+        <text class="agreement-link" bindtap="showUserAgreement">《用户协议》</text>
+        <text class="agreement-text">和</text>
+        <text class="agreement-link" bindtap="showPrivacyPolicy">《隐私政策》</text>
+      </view>
+      <view class="home-indicator"></view>
+    </view>
+
+  </view>
+</view>

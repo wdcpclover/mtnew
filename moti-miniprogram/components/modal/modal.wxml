@@ -1,0 +1,21 @@
+<view wx:if="{{visible}}" class="modal-overlay" bindtap="onOverlayTap">
+  <view class="modal-container" catchtap="preventClose">
+    <view wx:if="{{title}}" class="modal-header">
+      <text class="modal-title">{{title}}</text>
+    </view>
+
+    <view class="modal-body">
+      <slot></slot>
+      <text wx:if="{{content}}">{{content}}</text>
+    </view>
+
+    <view class="modal-footer">
+      <view wx:if="{{showCancel}}" class="modal-btn cancel" bindtap="onCancel">
+        {{cancelText}}
+      </view>
+      <view class="modal-btn confirm" bindtap="onConfirm">
+        {{confirmText}}
+      </view>
+    </view>
+  </view>
+</view>

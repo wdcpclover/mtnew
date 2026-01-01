@@ -1,0 +1,54 @@
+.page-container {
+  min-height: 100vh;
+  background-color: var(--bg-secondary);
+}
+
+.content-scroll {
+  height: calc(100vh - 88rpx);
+  padding: 32rpx;
+}
+
+.info-card {
+  background-color: var(--bg-card);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  border: 6rpx solid var(--bg-card);
+  box-shadow: var(--shadow-lg);
+}
+
+.avatar-edit {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48rpx;
+  height: 48rpx;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.edit-icon {
+  width: 24rpx;
+  height: 24rpx;
+}

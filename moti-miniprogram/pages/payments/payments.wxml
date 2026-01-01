@@ -1,0 +1,77 @@
+<view class="container {{darkMode ? 'dark' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header-content">
+      <view class="header-left">
+        <view class="back-btn" bindtap="goBack">
+          <image src="/images/icons/arrow-left.svg" class="back-icon" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="header-center">
+        <text class="header-title">付款记录</text>
+      </view>
+      <view class="header-right">
+        <view class="capsule-placeholder"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 主内容区 -->
+  <scroll-view
+    class="content-scroll"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    style="padding-top: {{navBarHeight}}px;"
+  >
+    <view class="content-inner">
+      <!-- 产品激活与有效期 -->
+      <view class="card">
+        <view class="card-title">产品激活与有效期</view>
+        <view class="info-row">
+          <text class="info-label">产品激活</text>
+          <text class="info-value highlight">{{productStatusText}}</text>
+        </view>
+        <view class="info-row last">
+          <text class="info-label">有效期至</text>
+          <text class="info-value">{{expireDate}}</text>
+        </view>
+      </view>
+
+      <!-- 兑换码输入 -->
+      <view class="card">
+        <view class="card-title">兑换码输入</view>
+        <view class="redeem-box">
+          <view class="gift-icon-box">
+            <image src="/images/icons/gift.svg" class="gift-icon" mode="aspectFit" />
+          </view>
+          <input
+            class="redeem-input"
+            placeholder="输入兑换码"
+            placeholder-class="input-placeholder"
+            value="{{redeemCode}}"
+            bindinput="onRedeemInput"
+          />
+          <view class="redeem-btn {{redeemCode ? '' : 'disabled'}}" bindtap="submitRedeem">兑换</view>
+        </view>
+      </view>
+
+      <!-- 付款记录 -->
+      <view class="card">
+        <view class="card-title">付款记录</view>
+        <view class="empty-text" wx:if="{{paymentList.length === 0}}">暂无付款记录</view>
+        <view wx:else>
+          <view class="payment-item {{index === paymentList.length - 1 ? 'last' : ''}}" wx:for="{{paymentList}}" wx:key="id">
+            <view class="payment-left">
+              <view class="payment-name">{{item.name}}</view>
+              <view class="payment-date">{{item.date}}</view>
+            </view>
+            <view class="payment-right">
+              <text class="payment-amount">{{item.amount}}元</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

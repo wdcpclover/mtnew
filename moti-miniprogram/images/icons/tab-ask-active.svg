@@ -1,0 +1,9 @@
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 两个人图标 - 提问 -->
+  <!-- 主要的人 -->
+  <circle cx="9" cy="6" r="3" stroke="#D7942B" stroke-width="1.5"/>
+  <path d="M3 18C3 14.5 5.5 12 9 12C12.5 12 15 14.5 15 18" stroke="#D7942B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 次要的人（较小，在右侧） -->
+  <circle cx="16" cy="7" r="2" stroke="#D7942B" stroke-width="1.2"/>
+  <path d="M19 17C19 14.5 17.5 13 16 13" stroke="#D7942B" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
