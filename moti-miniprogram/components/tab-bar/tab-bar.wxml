@@ -7,7 +7,7 @@
   >
     <image
       class="tab-bar-icon"
-      src="/images/icons/tab-inspire-{{current === 0 ? 'active' : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+      src="/images/icons/tab-inspire-{{current === 0 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
       mode="aspectFit"
     />
     <text class="tab-bar-label">最新</text>
@@ -21,7 +21,7 @@
   >
     <image
       class="tab-bar-icon"
-      src="/images/icons/tab-message-{{current === 1 ? 'active' : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+      src="/images/icons/tab-message-{{current === 1 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
       mode="aspectFit"
     />
     <text class="tab-bar-label">合集</text>
@@ -35,7 +35,7 @@
   >
     <image
       class="tab-bar-icon"
-      src="/images/icons/tab-users-{{current === 2 ? 'active' : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+      src="/images/icons/tab-users-{{current === 2 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
       mode="aspectFit"
     />
     <text class="tab-bar-label">提问</text>
@@ -49,7 +49,7 @@
   >
     <image
       class="tab-bar-icon"
-      src="/images/icons/tab-profile-{{current === 3 ? 'active' : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+      src="/images/icons/tab-profile-{{current === 3 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
       mode="aspectFit"
     />
     <text class="tab-bar-label">我的</text>
