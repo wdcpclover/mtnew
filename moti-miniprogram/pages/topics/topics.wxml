@@ -150,25 +150,8 @@
       <view class="safe-bottom"></view>
     </scroll-view>
 
-    <!-- 底部 TabBar -->
-    <view class="bottom-tab-bar">
-      <view class="bottom-tab-item" bindtap="goToHome">
-        <image src="/images/icons/tab-home.svg" class="bottom-tab-icon" mode="aspectFit" />
-        <text class="bottom-tab-text">最新</text>
-      </view>
-      <view class="bottom-tab-item active">
-        <image src="/images/icons/tab-topics-active.svg" class="bottom-tab-icon" mode="aspectFit" />
-        <text class="bottom-tab-text">合集</text>
-      </view>
-      <view class="bottom-tab-item" bindtap="goToAsk">
-        <image src="/images/icons/tab-ask.svg" class="bottom-tab-icon" mode="aspectFit" />
-        <text class="bottom-tab-text">提问</text>
-      </view>
-      <view class="bottom-tab-item" bindtap="goToProfile">
-        <image src="/images/icons/tab-profile.svg" class="bottom-tab-icon" mode="aspectFit" />
-        <text class="bottom-tab-text">我的</text>
-      </view>
-    </view>
+    <!-- 底部 TabBar (复用组件) -->
+    <tab-bar current="{{1}}" />
 
   </view>
 </view>

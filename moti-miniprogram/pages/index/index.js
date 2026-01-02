@@ -21,10 +21,16 @@ Page({
   onLoad() {
     const systemInfo = wx.getSystemInfoSync()
     const pages = getCurrentPages()
+    const statusBarHeight = systemInfo.statusBarHeight
+    // Custom nav bar height usually includes status bar + 44px (standard title bar height)
+    // We use a safe estimate or platform specific. 44px is standard for iOS/Android in Wechat mostly.
+    const navContentHeight = 44 
+    const navBarHeight = statusBarHeight + navContentHeight
 
     this.setData({
       darkMode: app.globalData.darkMode || false,
-      statusBarHeight: systemInfo.statusBarHeight,
+      statusBarHeight: statusBarHeight,
+      navBarHeight: navBarHeight,
       canGoBack: pages.length > 1
     })
 

@@ -1,29 +1,75 @@
-/* 最新页面样式 - 使用全局CSS变量支持深色模式 */
+/* 最新页面样式 - 1:1还原 */
+
+page {
+  --bg-page: #F3F4F6;
+  --bg-header-block: #FFFFFF;
+  --bg-search-input: #F3F4F6;
+  --bg-content: #FFFFFF;
+  --text-primary: #1F1F1F;
+  --text-secondary: #B9BABB;
+  --text-placeholder: #B9BABB;
+  --color-primary: #D7942B;
+  --divider-color: #F6F6F6;
+  --tab-active-color: #1F1F1F;
+  --tab-inactive-color: #AAAFBA;
+  --tab-top-active-color: #1F1F1F;
+  --tab-top-inactive-color: rgba(66, 66, 66, 0.5);
+  --message-btn-bg: #FFFFFF;
+  --message-btn-border: #EEEEEE;
+  --bottom-tab-bg: #FFFFFF;
+  --bottom-tab-border: #F6F6F6;
+}
+
+.page.dark {
+  --bg-page: #111111;
+  --bg-header-block: #1C1C1C;
+  --bg-search-input: #2C2C2C;
+  --bg-content: #202020;
+  --text-primary: #E7E7E7;
+  --text-secondary: #8E8E8E;
+  --text-placeholder: #8E8E8E;
+  --color-primary: #D7942B;
+  --divider-color: #303030;
+  --tab-active-color: #E7E7E7;
+  --tab-inactive-color: #8E8E8E;
+  --tab-top-active-color: #E7E7E7;
+  --tab-top-inactive-color: #8E8E8E;
+  --message-btn-bg: #1C1C1C;
+  --message-btn-border: #303030;
+  --bottom-tab-bg: #1C1C1C;
+  --bottom-tab-border: #303030;
+}
 
 .page {
   width: 100%;
   min-height: 100vh;
+  background-color: var(--bg-page);
+  box-sizing: border-box;
 }
 
 .container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-page);
+  padding-bottom: 160rpx;
+  box-sizing: border-box;
 }
 
 /* ============ 导航栏 ============ */
+/* 顶部 Status Bar + Title 区域背景为页面背景色 */
 .nav-header {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 88rpx;
   padding: 0 32rpx;
-  background-color: var(--bg-page);
+  background-color: var(--bg-page); 
+  z-index: 100;
 }
 
 .nav-left {
-  width: 80rpx;
+  width: 160rpx;
+  flex-shrink: 0;
 }
 
 .back-btn {
@@ -45,93 +91,65 @@
 }
 
 .nav-title {
-  font-size: 32rpx;
-  font-weight: 500;
+  font-size: 34rpx;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .nav-right {
+  width: 160rpx;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 
+/* 胶囊样式适配 */
 .nav-capsule {
   display: flex;
   align-items: center;
   height: 60rpx;
   padding: 0 20rpx;
-  background-color: var(--capsule-bg);
+  background-color: rgba(255,255,255,0.6);
   border-radius: 30rpx;
-  border: 1rpx solid var(--border-color);
+  border: 1rpx solid rgba(0,0,0,0.1);
+}
+.page.dark .nav-capsule {
+  background-color: rgba(255,255,255,0.1);
+  border: 1rpx solid rgba(255,255,255,0.1);
 }
 
-.capsule-dots {
+/* ============ 搜索栏区域 ============ */
+/* 白色圆角背景块, 对应 SVG M0 90H390V140... */
+.search-section {
+  background-color: var(--bg-header-block);
+  padding: 32rpx 36rpx 24rpx; /* Top 16px, Side 18px, Bottom 12px */
+  border-bottom-left-radius: 24rpx;
+  border-bottom-right-radius: 24rpx;
   display: flex;
   align-items: center;
-  gap: 6rpx;
-}
-
-.dot {
-  width: 8rpx;
-  height: 8rpx;
-  border-radius: 50%;
-  background-color: var(--text-primary);
-}
-
-.dot.dot-large {
-  width: 16rpx;
-  height: 16rpx;
-}
-
-.capsule-divider {
-  width: 2rpx;
-  height: 32rpx;
-  background-color: var(--border-color);
-  margin: 0 16rpx;
-}
-
-.capsule-icon {
-  width: 32rpx;
-  height: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-img {
-  width: 32rpx;
-  height: 32rpx;
-}
-
-/* ============ 搜索栏 ============ */
-.search-bar {
-  display: flex;
-  align-items: center;
-  padding: 16rpx 32rpx;
-  gap: 20rpx;
-  background-color: var(--bg-page);
+  gap: 36rpx; /* Gap 18px */
 }
 
 .search-input-wrapper {
   flex: 1;
   display: flex;
   align-items: center;
-  height: 64rpx;
-  padding: 0 20rpx;
-  background-color: var(--bg-input);
-  border-radius: 8rpx;
+  height: 68rpx; /* Height 34px */
+  padding: 0 24rpx;
+  background-color: var(--bg-search-input);
+  border-radius: 16rpx; /* SVG rx=8 -> 16rpx */
   gap: 12rpx;
 }
 
 .search-icon {
-  width: 28rpx;
-  height: 28rpx;
-  opacity: 0.4;
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .search-placeholder {
-  font-size: 26rpx;
-  color: var(--text-tertiary);
+  font-size: 28rpx;
+  color: var(--text-placeholder);
 }
 
 .message-btn {
@@ -139,173 +157,178 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  background-color: var(--message-btn-bg);
+  border: 2rpx solid var(--message-btn-border);
+  border-radius: 12rpx;
+  box-sizing: border-box;
 }
 
 .message-icon {
-  width: 44rpx;
-  height: 44rpx;
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .badge {
   position: absolute;
   top: -8rpx;
   right: -8rpx;
-  min-width: 32rpx;
-  height: 32rpx;
+  min-width: 44rpx; /* Width 22px */
+  height: 34rpx; /* Height 17px */
   padding: 0 6rpx;
   background-color: var(--color-primary);
-  border-radius: 16rpx;
+  border-radius: 17rpx; /* Half of height */
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .badge text {
-  font-size: 18rpx;
+  font-size: 20rpx;
   color: #FFFFFF;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ============ 内容区域 ============ */
+/* 对应 SVG M0 170... 白色大圆角卡片 */
+.content-container {
+  flex: 1;
+  background-color: var(--bg-content);
+  margin-top: 12rpx; /* 158 - 152 = 6px -> 12rpx */
+  border-top-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* ============ Tab 标签 ============ */
 .tab-header {
   display: flex;
   align-items: flex-end;
-  padding: 20rpx 32rpx 0;
-  gap: 40rpx;
-  background-color: var(--bg-page);
-  border-bottom: 2rpx solid var(--border-color);
+  padding: 16rpx 32rpx 0;
+  gap: 60rpx;
+  border-bottom: 2rpx solid var(--divider-color);
 }
 
 .tab-item {
   position: relative;
-  padding-bottom: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 12rpx;
 }
 
 .tab-item text {
   font-size: 28rpx;
-  color: var(--text-tertiary);
+  color: var(--tab-top-inactive-color);
+  font-weight: 400;
+  line-height: 40rpx;
 }
 
 .tab-item.active text {
-  color: var(--text-primary);
-  font-weight: 500;
+  color: var(--tab-top-active-color);
+  font-weight: 600;
+  font-size: 28rpx;
 }
 
+/* 选中指示器: 金色短横线 */
 .tab-line {
   position: absolute;
-  bottom: -2rpx;
   left: 50%;
-  transform: translateX(-50%);
-  width: 32rpx;
-  height: 4rpx;
+  bottom: 2rpx;
+  width: 64rpx; /* Width 32 in SVG */
+  height: 6rpx; /* Height 3 in SVG */
   background-color: var(--color-primary);
-  border-radius: 2rpx;
+  border-radius: 3rpx;
+  transform: translateX(-50%);
 }
 
 /* ============ 问题列表 ============ */
 .question-list {
   flex: 1;
-  height: calc(100vh - 400rpx);
+  height: 0; /* Important for scroll-view in flex */
 }
 
 .question-list-inner {
-  background-color: var(--bg-primary);
+  padding: 0 32rpx; /* Side padding 16px */
 }
 
 .question-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 28rpx 32rpx;
+  justify-content: flex-start;
+  gap: 12rpx;
+  padding: 24rpx 0;
   border-bottom: 2rpx solid var(--divider-color);
 }
 
 .question-text {
-  flex: 1;
-  font-size: 28rpx;
+  flex: 0 1 auto;
+  min-width: 0;
+  display: block;
+  font-size: 30rpx;
   color: var(--text-primary);
-  line-height: 1.4;
-  margin-right: 12rpx;
+  line-height: 44rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+/* Hot Tag styling from SVG */
 .hot-tag {
   flex-shrink: 0;
-  padding: 4rpx 10rpx;
+  width: 28rpx; /* 14px */
+  height: 28rpx; /* 14px */
   background-color: var(--color-primary);
   border-radius: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hot-tag text {
+.hot-text {
   font-size: 20rpx;
   color: #FFFFFF;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* ============ 加载状态 ============ */
 .loading-wrapper {
+  padding: 40rpx 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 48rpx 0;
-  background-color: var(--bg-primary);
+  justify-content: center;
 }
-
 .loading-spinner {
-  width: 48rpx;
-  height: 48rpx;
+  width: 40rpx;
+  height: 40rpx;
   border: 4rpx solid var(--divider-color);
   border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  margin-top: 16rpx;
-  font-size: 24rpx;
-  color: var(--text-tertiary);
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* 空状态 */
 .empty-wrapper {
+  padding: 100rpx 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120rpx 0;
-  background-color: var(--bg-primary);
 }
-
 .empty-icon {
-  width: 160rpx;
-  height: 160rpx;
-  opacity: 0.5;
+  width: 200rpx;
+  height: 200rpx;
+  opacity: 0.1;
 }
-
 .empty-text {
-  margin-top: 24rpx;
+  margin-top: 30rpx;
   font-size: 28rpx;
-  color: var(--text-tertiary);
-}
-
-/* 没有更多 */
-.no-more {
-  text-align: center;
-  padding: 32rpx 0;
-  background-color: var(--bg-primary);
-}
-
-.no-more text {
-  font-size: 24rpx;
-  color: var(--text-placeholder);
-}
-
-/* 底部安全区域 */
-.safe-bottom {
-  height: 160rpx;
-  background-color: var(--bg-primary);
+  color: var(--text-secondary);
 }
 
 /* ============ 底部 TabBar ============ */
@@ -314,46 +337,39 @@
   bottom: 0;
   left: 0;
   right: 0;
+  box-sizing: border-box;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-around;
-  height: 100rpx;
+  height: 160rpx; /* 80px (含安全区) */
   padding-bottom: env(safe-area-inset-bottom);
-  background-color: var(--bg-primary);
-  border-top: 2rpx solid var(--divider-color);
+  background-color: var(--bottom-tab-bg);
+  border-top: 2rpx solid var(--bottom-tab-border);
+  z-index: 900;
 }
 
 .bottom-tab-item {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rpx;
-  padding: 16rpx 24rpx 12rpx;
-}
-
-.bottom-tab-item.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32rpx;
-  height: 4rpx;
-  background-color: var(--color-primary);
-  border-radius: 2rpx;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
 }
 
 .bottom-tab-icon {
-  width: 40rpx;
-  height: 40rpx;
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 8rpx;
 }
 
 .bottom-tab-text {
   font-size: 20rpx;
-  color: var(--tab-color);
+  color: var(--tab-inactive-color);
+  font-weight: 400;
 }
 
 .bottom-tab-item.active .bottom-tab-text {
   color: var(--tab-active-color);
+  font-weight: 500;
 }
