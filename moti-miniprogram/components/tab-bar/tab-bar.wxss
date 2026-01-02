@@ -36,8 +36,9 @@
   color: #AAAFBA;
 }
 
+/* Light mode - active: black text */
 .tab-bar-item.active .tab-bar-label {
-  color: #C99C00;
+  color: #1F1F1F;
   font-weight: 500;
 }
 
@@ -51,6 +52,7 @@
   color: #8E8E8E;
 }
 
+/* Dark mode - active: white text */
 .tab-bar.dark .tab-bar-item.active .tab-bar-label {
-  color: #C99C00;
+  color: #E7E7E7;
 }
