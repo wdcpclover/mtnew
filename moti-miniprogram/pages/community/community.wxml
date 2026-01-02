@@ -143,7 +143,7 @@
     </view>
 
     <!-- 底部 TabBar (复用组件) -->
-    <tab-bar current="{{2}}" />
+    <tab-bar current="{{2}}" darkMode="{{darkMode}}" />
 
   </view>
 </view>

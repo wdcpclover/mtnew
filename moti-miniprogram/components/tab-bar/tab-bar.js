@@ -3,24 +3,11 @@ Component({
     current: {
       type: Number,
       value: 0
+    },
+    darkMode: {
+      type: Boolean,
+      value: false
     }
-  },
-
-  data: {
-    theme: 'light'
-  },
-
-  attached() {
-    const systemInfo = wx.getSystemInfoSync()
-    this.setData({
-      theme: systemInfo.theme || 'light'
-    })
-
-    wx.onThemeChange((result) => {
-      this.setData({
-        theme: result.theme
-      })
-    })
   },
 
   methods: {

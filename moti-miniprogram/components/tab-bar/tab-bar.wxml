@@ -1,4 +1,4 @@
-<view class="tab-bar safe-area-bottom">
+<view class="tab-bar safe-area-bottom {{darkMode ? 'dark' : ''}}">
   <view
     class="tab-bar-item {{current === 0 ? 'active' : ''}}"
     bindtap="switchTab"

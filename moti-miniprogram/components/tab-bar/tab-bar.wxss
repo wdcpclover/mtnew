@@ -1,14 +1,14 @@
 .tab-bar {
   position: fixed;
   bottom: 0;
-  left: 32rpx;
-  right: 32rpx;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 140rpx;
   background-color: #FFFFFF;
-  border-top: 2rpx solid #EEEEEE;
+  border-top: 2rpx solid #F6F6F6;
   z-index: 999;
 }
 
@@ -41,17 +41,16 @@
   font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  .tab-bar {
-    background-color: #2C2C2C;
-    border-top-color: #303030;
-  }
+/* Dark Mode */
+.tab-bar.dark {
+  background-color: #1C1C1C;
+  border-top-color: #303030;
+}
 
-  .tab-bar-label {
-    color: #8E8E8E;
-  }
+.tab-bar.dark .tab-bar-label {
+  color: #8E8E8E;
+}
 
-  .tab-bar-item.active .tab-bar-label {
-    color: #C99C00;
-  }
+.tab-bar.dark .tab-bar-item.active .tab-bar-label {
+  color: #C99C00;
 }

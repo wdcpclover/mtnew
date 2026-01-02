@@ -137,7 +137,7 @@
     </scroll-view>
 
     <!-- 底部 TabBar (复用组件) -->
-    <tab-bar current="{{3}}" />
+    <tab-bar current="{{3}}" darkMode="{{darkMode}}" />
 
   </view>
 </view>
