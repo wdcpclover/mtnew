@@ -1,0 +1,13 @@
+#!/usr/bin/expect -f
+set timeout 60
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn scp -o StrictHostKeyChecking=no /Users/changpengcheng/MT/ssl_temp/motizhidi_v2.conf root@110.42.230.103:/tmp/
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    eof
+}

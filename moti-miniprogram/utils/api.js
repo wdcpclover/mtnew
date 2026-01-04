@@ -33,10 +33,65 @@ function getUser() {
 }
 
 /**
- * 设置用户信息
+ * 设置用户信息（存储完整信息）
  */
 function setUser(user) {
-  wx.setStorageSync(config.USER_KEY, user);
+  // 存储完整的用户信息对象
+  const fullUserInfo = {
+    // 基本信息
+    uid: user.uid || user.id,
+    username: user.username || user.userslug,
+    nickname: user.nickname || user.fullname || user.displayname,
+    email: user.email,
+
+    // 头像和图片
+    avatar: user.picture || user['picture-url'] || user.avatarUrl,
+
+    // VIP 信息
+    isVIP: user.isVIP || user.vip || false,
+    vipExpireTime: user.vipExpireTime || user.vip_expire_time || 0,
+
+    // 积分信息
+    points: user.points || 0,
+    reputation: user.reputation || 0,
+
+    // 统计信息
+    postcount: user.postcount || 0,
+    topiccount: user.topiccount || 0,
+
+    // 阅读统计
+    readCount: user.readCount || 0,
+    dailyReadCount: user.dailyReadCount || user.daily_read_count || 0,
+    readingTime: user.readingTime || 0,
+    consecutiveDays: user.consecutiveDays || 0,
+
+    // 手机号
+    phone: user.phone || user.phoneNumber || '',
+
+    // 微信信息
+    openid: user.openid || '',
+    unionid: user.unionid || '',
+
+    // 时间戳
+    joindate: user.joindate || user.joinDate || Date.now(),
+    lastonline: user.lastonline || user.lastOnline || Date.now(),
+
+    // 状态
+    status: user.status || 'online',
+    banned: user.banned || false,
+
+    // 其他扩展字段
+    ...user
+  };
+
+  wx.setStorageSync(config.USER_KEY, fullUserInfo);
+
+  // 同时更新 app 全局数据
+  const app = getApp();
+  if (app && app.globalData) {
+    app.globalData.userInfo = fullUserInfo;
+    app.globalData.isLoggedIn = true;
+  }
 }
 
 /**
@@ -511,7 +566,7 @@ function redeemCode(code) {
  */
 function createTopic(data) {
   return request({
-    url: '/topic',
+    url: '/topic/create',
     method: 'POST',
     data: data
   });

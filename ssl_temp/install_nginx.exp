@@ -1,0 +1,33 @@
+#!/usr/bin/expect -f
+set timeout 300
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 安装 nginx
+send "yum install -y nginx\r"
+expect {
+    "Complete!" { }
+    "Nothing to do" { }
+    "# " { }
+}
+expect "# "
+
+# 启动 nginx 并设置开机启动
+send "systemctl enable nginx && systemctl start nginx\r"
+expect "# "
+
+# 检查 nginx 状态
+send "systemctl status nginx | head -10\r"
+expect "# "
+
+send "exit\r"
+expect eof

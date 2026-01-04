@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f
+set timeout 60
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+send "mv /tmp/motizhidi_new.conf /etc/nginx/conf.d/motizhidi.cn.conf\r"
+expect "# "
+
+send "nginx -t\r"
+expect "# "
+
+send "systemctl reload nginx\r"
+expect "# "
+
+send "curl -sk https://127.0.0.1/yK3zOoaDw5.txt\r"
+expect "# "
+
+send "exit\r"
+expect eof

@@ -3,6 +3,7 @@
  */
 
 const app = getApp()
+const api = require('../../utils/api')
 
 Page({
   data: {
@@ -67,20 +68,18 @@ Page({
   // ============ 数据加载 ============
 
   async loadTopics() {
-    // TODO: 替换为真实 API
-    const topics = [
-      { id: 1, name: '灵性' },
-      { id: 2, name: '科技' },
-      { id: 3, name: '成长' },
-      { id: 4, name: '其他' },
-      { id: 5, name: '外星人' },
-      { id: 6, name: '灵性' },
-      { id: 7, name: '灵性' },
-      { id: 8, name: '灵性' },
-      { id: 9, name: '灵性' },
-      { id: 10, name: '灵性' }
-    ]
-    this.setData({ topics })
+    try {
+      // 获取标签列表
+      const tags = await api.getTags()
+      const topics = tags.map(tag => ({
+        id: tag.value || tag.tag,
+        name: tag.value || tag.tag
+      }))
+      this.setData({ topics })
+    } catch (err) {
+      console.warn('加载话题标签失败:', err)
+      this.setData({ topics: [] })
+    }
   },
 
   async loadQuestions(loadMore = false) {
@@ -91,12 +90,38 @@ Page({
 
     try {
       const page = loadMore ? this.data.page + 1 : 1
+      const { currentSort, selectedTopics } = this.data
 
-      // TODO: 替换为真实 API
-      await this.sleep(600)
-      const questions = this.getMockQuestions()
+      // 根据排序获取数据
+      const sortMap = ['time', 'hot']
+      const sortValue = sortMap[currentSort] === 'time' ? 'recent' : 'votes'
 
-      const hasMore = page < 3
+      // 构建请求参数
+      const params = {
+        page: page,
+        limit: 20,
+        sort: sortValue
+      }
+
+      // 如果有选中的话题标签，添加过滤条件
+      // 注意：后端可能不支持按标签过滤，这里作为占位
+      if (selectedTopics.length > 0) {
+        params.tags = selectedTopics.join(',')
+      }
+
+      // 调用真实 API
+      const result = await api.getPosts(params)
+
+      // 处理返回的数据
+      const questions = (result.topics || result.posts || result || []).map(post => ({
+        id: post.tid || post.pid || post.id,
+        voteCount: post.votes || 0,
+        title: post.title || post.titleRaw,
+        isHot: post.votes > 10 || post.viewcount > 100,
+        isRead: false
+      }))
+
+      const hasMore = questions.length >= 20
 
       this.setData({
         questions: loadMore ? [...this.data.questions, ...questions] : questions,
@@ -105,7 +130,7 @@ Page({
       })
     } catch (err) {
       console.error('加载问题失败:', err)
-      wx.showToast({ title: '加载失败', icon: 'none' })
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' })
     } finally {
       this.setData({ loading: false })
     }
@@ -199,8 +224,8 @@ Page({
   },
 
   openAskModal() {
-    // TODO: 打开发起提问弹窗或跳转到提问页面
-    wx.showToast({ title: '发起提问', icon: 'none' })
+    // 跳转到发起提问页面
+    wx.navigateTo({ url: '/pages/ask/ask' })
   },
 
   openQuestion(e) {
@@ -216,30 +241,7 @@ Page({
     this.setData({ questions })
 
     wx.navigateTo({
-      url: `/pages/question/question?id=${id}`
+      url: `/pages/article/article?id=${id}`
     })
-  },
-
-  // ============ 工具方法 ============
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  },
-
-  getMockQuestions() {
-    return [
-      { id: 1, voteCount: 999, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: true, isRead: false },
-      { id: 2, voteCount: 19, title: '如何看待星光体旅行获得的信息？', isHot: true, isRead: false },
-      { id: 3, voteCount: 11, title: '守不住财是什么原因？', isHot: false, isRead: true },
-      { id: 4, voteCount: 20, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: true, isRead: false },
-      { id: 5, voteCount: 11, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: false, isRead: false },
-      { id: 6, voteCount: 20, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: true, isRead: true },
-      { id: 7, voteCount: 20, title: '如何看待星光体旅行获得的信息？', isHot: true, isRead: false },
-      { id: 8, voteCount: 20, title: '每周讨论：你认为物质极简能否带来精神富足？', isHot: true, isRead: false },
-      { id: 9, voteCount: 20, title: '如何看待星光体旅行获得的信息？', isHot: true, isRead: false },
-      { id: 10, voteCount: 20, title: '如何看待星光体旅行获得的信息？', isHot: true, isRead: false },
-      { id: 11, voteCount: 20, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: true, isRead: false },
-      { id: 12, voteCount: 20, title: '如何在极度焦虑的现代生活中保持内心宁静？', isHot: true, isRead: true }
-    ]
   }
 })

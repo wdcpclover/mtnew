@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+set timeout 120
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 检查 nginx 状态
+send "which nginx && nginx -v\r"
+expect "# "
+
+# 查看 nginx 配置目录结构
+send "ls -la /etc/nginx/\r"
+expect "# "
+
+# 查找 NodeBB 目录
+send "find / -name 'nodebb' -type d 2>/dev/null | head -5\r"
+expect "# "
+
+# 查看 NodeBB 配置
+send "cat /root/nodebb/config.json 2>/dev/null || cat /home/nodebb/config.json 2>/dev/null || cat /var/www/nodebb/config.json 2>/dev/null || echo 'NodeBB config not found in common locations'\r"
+expect "# "
+
+send "exit\r"
+expect eof

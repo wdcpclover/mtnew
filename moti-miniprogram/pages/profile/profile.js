@@ -3,6 +3,7 @@
  */
 
 const app = getApp()
+const api = require('../../utils/api')
 
 Page({
   data: {
@@ -53,15 +54,22 @@ Page({
   // ============ 数据加载 ============
 
   async loadUserStats() {
-    // TODO: 从 API 获取真实数据
-    // const stats = await api.getUserStats()
-    // this.setData({
-    //   readArticles: stats.readArticles,
-    //   totalArticles: stats.totalArticles,
-    //   progressPercent: (stats.readArticles / stats.totalArticles * 100).toFixed(1),
-    //   readingHours: stats.readingHours,
-    //   readingDays: stats.readingDays
-    // })
+    try {
+      // 获取用户统计数据
+      const stats = await api.getUserStats()
+
+      this.setData({
+        readArticles: stats.readCount || 0,
+        totalArticles: stats.totalPosts || 3000,
+        progressPercent: stats.totalPosts ?
+          ((stats.readCount / stats.totalPosts) * 100).toFixed(1) : 0,
+        readingHours: stats.readingTime ? (stats.readingTime / 3600).toFixed(1) : 0,
+        readingDays: stats.consecutiveDays || 0
+      })
+    } catch (err) {
+      console.warn('加载用户统计失败:', err)
+      // 保留默认值，不影响页面显示
+    }
   },
 
   // ============ 深色模式 ============

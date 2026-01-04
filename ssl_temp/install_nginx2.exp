@@ -1,0 +1,29 @@
+#!/usr/bin/expect -f
+set timeout 300
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 禁用 nginx 官方仓库，使用系统仓库安装
+send "yum install -y nginx --disablerepo=nginx-stable\r"
+expect {
+    "Complete!" { }
+    "Nothing to do" { }
+    "# " { }
+}
+expect "# "
+
+# 检查安装结果
+send "which nginx\r"
+expect "# "
+
+send "exit\r"
+expect eof

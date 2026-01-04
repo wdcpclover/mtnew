@@ -3,6 +3,7 @@
  */
 
 const app = getApp()
+const api = require('../../utils/api')
 
 Page({
   data: {
@@ -43,6 +44,18 @@ Page({
     })
   },
 
+  // ============ 工具函数 ============
+
+  // Fisher-Yates 洗牌算法
+  shuffleArray(array) {
+    const newArray = [...array]
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+    }
+    return newArray
+  },
+
   // ============ 数据加载 ============
 
   async loadQuestions(loadMore = false) {
@@ -53,25 +66,46 @@ Page({
 
     try {
       const page = loadMore ? this.data.page + 1 : 1
+      const { activeTab } = this.data
 
-      // TODO: 替换为真实 API
-      // const result = await api.getQuestions({ page, tab: this.data.activeTab })
+      // 根据 tab 确定排序方式
+      const sortMap = {
+        'latest': 'recent',
+        'hot': 'popular',
+        'random': 'recent' // 随缘：先获取最新，然后打乱顺序
+      }
+      const sort = sortMap[activeTab] || 'recent'
 
-      // 模拟数据
-      await this.sleep(800)
-      const mockQuestions = this.getMockQuestions()
+      // 调用真实 API
+      const result = await api.getPosts({
+        page: page,
+        limit: 20,
+        sort: sort
+      })
 
-      const hasMore = page < 3 // 模拟只有3页
+      // 处理返回的数据
+      let questions = (result.topics || result.posts || result || []).map(post => ({
+        id: post.pid || post.tid || post.id,
+        title: post.title || post.titleRaw,
+        isHot: post.votes > 10 || post.viewcount > 100
+      }))
+
+      // 如果是随缘模式，打乱顺序
+      if (activeTab === 'random') {
+        questions = this.shuffleArray(questions)
+      }
+
+      const hasMore = questions.length >= 20
 
       this.setData({
-        questions: loadMore ? [...this.data.questions, ...mockQuestions] : mockQuestions,
+        questions: loadMore ? [...this.data.questions, ...questions] : questions,
         page,
         hasMore
       })
 
     } catch (err) {
       console.error('加载问题失败:', err)
-      wx.showToast({ title: '加载失败', icon: 'none' })
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' })
     } finally {
       this.setData({ loading: false })
     }
@@ -136,36 +170,6 @@ Page({
 
   openQuestion(e) {
     const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: '/pages/question/question?id=' + id })
-  },
-
-  // ============ 工具方法 ============
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  },
-
-  // 模拟数据
-  getMockQuestions() {
-    const titles = [
-      '如何在极度焦虑的现代生活中保持内心宁静？',
-      '如何看待星光体旅行获得的信息？',
-      '如何看待星光体旅行获得的信息？',
-      '如何看待星光体旅行获得的信息？',
-      '恋爱时双方的高我会怎么沟通？',
-      '守不住财是什么原因？',
-      '如何看待星光体旅行获得的信息？',
-      '每周讨论：你认为物质极简能否带来精神富足？',
-      '如何看待星光体旅行获得的信息？',
-      '如何看待星光体旅行获得的信息？',
-      '如何看待星光体旅行获得的信息？',
-      '如何看待星光体旅行获得的信息？'
-    ]
-
-    return titles.map((title, i) => ({
-      id: Date.now() + i,
-      title,
-      isHot: i < 8 && Math.random() > 0.3 // 前8个随机显示热标签
-    }))
+    wx.navigateTo({ url: '/pages/article/article?id=' + id })
   }
 })

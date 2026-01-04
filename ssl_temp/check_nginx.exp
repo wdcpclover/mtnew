@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f
+set timeout 60
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 查看 nginx 错误日志
+send "journalctl -xeu nginx.service | tail -30\r"
+expect "# "
+
+# 检查端口占用
+send "ss -tlnp | grep -E ':80|:443'\r"
+expect "# "
+
+# 查看 nginx 错误日志文件
+send "cat /var/log/nginx/error.log 2>/dev/null | tail -20\r"
+expect "# "
+
+send "exit\r"
+expect eof

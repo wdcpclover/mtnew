@@ -313,34 +313,40 @@ Page({
       // 先获取微信登录code
       const loginRes = await this.wxLogin()
 
-      // TODO: 调用后端接口，传递 code, encryptedData, iv 来解密手机号并登录
-      // const result = await api.wechatPhoneLogin({
-      //   loginCode: loginRes.code,
-      //   phoneCode: code,
-      //   encryptedData,
-      //   iv
-      // })
+      // 调用微信登录接口（先登录再绑定手机号）
+      const api = require('../../utils/api')
+      const loginResult = await api.wechatLogin(loginRes.code, null)
 
-      // 模拟登录成功
-      await this.sleep(800)
-      const result = {
-        token: 'wechat_phone_token_' + Date.now(),
-        user: { id: 1, phone: '135****2025' },
-        isNewUser: true,
-        hasUserInfo: false
+      // 保存 token
+      api.setToken(loginResult.token)
+      api.setUser(loginResult.user)
+
+      // 绑定手机号
+      if (encryptedData && iv) {
+        try {
+          await api.bindPhone(code)
+          // 重新获取用户信息
+          const updatedUser = await api.getUserProfile()
+          loginResult.user = updatedUser
+          api.setUser(updatedUser)
+        } catch (err) {
+          console.warn('绑定手机号失败，但登录成功:', err)
+        }
       }
 
       this.setData({ loading: false })
 
-      if (!result.hasUserInfo) {
-        // 需要获取用户信息
-        this.setData({ loginState: 'login5' })
-      } else if (result.isNewUser) {
-        // 新用户，去完善信息
-        this.setData({ loginState: 'login6' })
+      // 检查是否新用户或缺少用户信息
+      if (loginResult.isNewUser || !loginResult.user.nickname || !loginResult.user.picture) {
+        // 需要完善用户信息
+        this.setData({
+          loginState: 'login6',
+          'userInfo.avatar': loginResult.user.picture || '',
+          'userInfo.nickname': loginResult.user.nickname || ''
+        })
       } else {
-        // 老用户，直接登录成功
-        this.onLoginSuccess(result)
+        // 直接登录成功
+        this.onLoginSuccess(loginResult)
       }
 
     } catch (err) {
@@ -360,33 +366,26 @@ Page({
       // 获取微信登录 code
       const loginRes = await this.wxLogin()
 
-      // TODO: 调用后端微信登录接口
-      // const result = await api.wechatLogin(loginRes.code)
+      // 调用后端微信登录接口
+      const api = require('../../utils/api')
+      const result = await api.wechatLogin(loginRes.code, null)
 
-      // 模拟登录
-      await this.sleep(800)
-      const result = {
-        token: 'wechat_token_' + Date.now(),
-        user: { id: 1 },
-        isNewUser: true,
-        hasUserInfo: false
-      }
+      // 保存 token 和用户信息
+      api.setToken(result.token)
+      api.setUser(result.user)
 
-      if (!result.hasUserInfo) {
-        // 需要获取用户信息
-        this.setData({
-          loginState: 'login5',
-          loading: false
-        })
-      } else if (result.isNewUser) {
-        // 新用户，去完善信息
+      this.setData({ loading: false })
+
+      // 检查是否新用户或缺少用户信息
+      if (result.isNewUser || !result.user.nickname || !result.user.picture) {
+        // 需要完善用户信息
         this.setData({
           loginState: 'login6',
-          loading: false
+          'userInfo.avatar': result.user.picture || '',
+          'userInfo.nickname': result.user.nickname || ''
         })
       } else {
         // 老用户，直接登录成功
-        this.setData({ loading: false })
         this.onLoginSuccess(result)
       }
 
@@ -442,20 +441,34 @@ Page({
     try {
       wx.showLoading({ title: '保存中...' })
 
-      // TODO: 调用更新用户信息接口
-      // await api.updateUserInfo(userInfo)
+      const api = require('../../utils/api')
 
-      // 模拟保存
-      await this.sleep(500)
+      // 准备更新数据
+      const updateData = {
+        fullname: userInfo.nickname.trim()
+      }
+
+      // 如果有头像，需要先上传（暂时跳过图片上传，只更新昵称）
+      // TODO: 实现头像上传功能
+      if (userInfo.avatar && !userInfo.avatar.startsWith('http')) {
+        console.log('需要上传头像:', userInfo.avatar)
+        // const uploadResult = await uploadAvatar(userInfo.avatar)
+        // updateData.picture = uploadResult.url
+      }
+
+      // 更新用户信息
+      await api.updateUserProfile(updateData)
+
+      // 获取最新的用户信息
+      const updatedUser = await api.getUserProfile()
 
       const result = {
-        token: wx.getStorageSync('token') || 'new_token_' + Date.now(),
-        user: {
-          id: 1,
-          nickname: userInfo.nickname.trim(),
-          avatar: userInfo.avatar
-        }
+        token: api.getToken(),
+        user: updatedUser
       }
+
+      // 更新本地存储
+      api.setUser(updatedUser)
 
       wx.hideLoading()
       this.onLoginSuccess(result)
@@ -488,21 +501,42 @@ Page({
     return new Promise(resolve => setTimeout(resolve, ms))
   },
 
-  onLoginSuccess(result) {
-    // 保存登录状态
-    app.globalData.isLoggedIn = true
-    app.globalData.userInfo = result.user
+  async onLoginSuccess(result) {
+    const api = require('../../utils/api')
 
-    // 保存到本地存储
-    wx.setStorageSync('token', result.token)
-    wx.setStorageSync('userInfo', result.user)
+    try {
+      // 保存 token
+      api.setToken(result.token)
 
-    wx.showToast({ title: '登录成功', icon: 'success' })
+      // 获取完整的用户信息（包含所有字段）
+      let fullUserInfo = result.user
+      try {
+        // 尝试获取更完整的用户信息
+        const profile = await api.getUserProfile()
+        fullUserInfo = { ...result.user, ...profile }
+      } catch (err) {
+        console.warn('获取完整用户信息失败，使用登录返回的信息:', err)
+      }
 
-    // 跳转首页
-    setTimeout(() => {
-      wx.switchTab({ url: '/pages/index/index' })
-    }, 1000)
+      // 保存完整用户信息到本地
+      api.setUser(fullUserInfo)
+
+      // 更新全局状态
+      app.globalData.isLoggedIn = true
+      app.globalData.userInfo = fullUserInfo
+
+      console.log('登录成功，已保存用户信息:', fullUserInfo)
+
+      wx.showToast({ title: '登录成功', icon: 'success' })
+
+      // 跳转首页
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/index/index' })
+      }, 1000)
+    } catch (err) {
+      console.error('保存用户信息失败:', err)
+      wx.showToast({ title: '登录异常', icon: 'none' })
+    }
   },
 
   handleSkip() {

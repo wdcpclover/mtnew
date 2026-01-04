@@ -1,0 +1,40 @@
+#!/usr/bin/expect -f
+set timeout 120
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 备份 NodeBB 配置
+send "cp /root/nodebb/config.json /root/nodebb/config.json.bak\r"
+expect "# "
+
+# 修改 NodeBB 配置，将 url 改为 https://motizhidi.cn
+send "sed -i 's|\"url\": \"http://110.42.230.103\"|\"url\": \"https://motizhidi.cn\"|' /root/nodebb/config.json\r"
+expect "# "
+
+# 查看修改后的配置
+send "cat /root/nodebb/config.json\r"
+expect "# "
+
+# 重启 NodeBB
+send "cd /root/nodebb && ./nodebb restart\r"
+expect {
+    "NodeBB Restarted" { }
+    "# " { }
+}
+expect "# "
+
+# 检查 NodeBB 状态
+send "./nodebb status\r"
+expect "# "
+
+send "exit\r"
+expect eof

@@ -1,10 +1,11 @@
-### Welcome to your brand new NodeBB forum!
+### 欢迎来到莫提之地！
 
-This is what a topic and post looks like. As an administrator, you can edit the post\'s title and content.
-To customise your forum, go to the [Administrator Control Panel](../../admin). You can modify all aspects of your forum there, including installation of third-party plugins.
+这是一个帖子的示例。作为管理员，你可以编辑帖子的标题和内容。
 
-#### Additional Resources
+在这里，你可以：
+- 浏览精选问答内容
+- 发表你的问题和见解
+- 收藏和划线记录重要内容
+- 与其他用户互动交流
 
-* [NodeBB Documentation](https://docs.nodebb.org)
-* [Community Support Forum](https://community.nodebb.org)
-* [Project repository](https://github.com/nodebb/nodebb)
+开始你的莫提之地之旅吧！

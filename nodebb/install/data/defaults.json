@@ -1,7 +1,7 @@
 {
-    "title": "NodeBB",
+    "title": "莫提之地",
     "showSiteTitle": 1,
-    "defaultLang": "en-GB",
+    "defaultLang": "zh-CN",
     "loginDays": 14,
     "loginSeconds": 0,
     "sessionDuration": 0,
@@ -38,6 +38,7 @@
     "maximumTagLength": 15,
     "undoTimeout": 0,
     "allowTopicsThumbnail": 1,
+    "showPostUploadsAsThumbnails": 1,
     "registrationType": "normal",
     "registrationApprovalType": "normal",
     "allowAccountDelete": 1,

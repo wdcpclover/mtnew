@@ -1,38 +1,38 @@
 [
     {
-        "name": "Announcements",
-        "description": "Announcements regarding our community",
-        "descriptionParsed": "<p>Announcements regarding our community</p>\n",
+        "name": "精选问答",
+        "description": "管理员精选的优质问答内容",
+        "descriptionParsed": "<p>管理员精选的优质问答内容</p>\n",
         "bgColor": "#fda34b",
         "color": "#ffffff",
-        "icon" : "fa-bullhorn",
+        "icon" : "fa-star",
         "order": 1
     },
     {
-        "name": "General Discussion",
-        "description": "A place to talk about whatever you want",
-        "descriptionParsed": "<p>A place to talk about whatever you want</p>\n",
+        "name": "用户提问",
+        "description": "用户发布的问题和讨论",
+        "descriptionParsed": "<p>用户发布的问题和讨论</p>\n",
         "bgColor": "#59b3d0",
         "color": "#ffffff",
-        "icon" : "fa-comments-o",
+        "icon" : "fa-question-circle",
         "order": 2
     },
     {
-        "name": "Blogs",
-        "description": "Blog posts from individual members",
-        "descriptionParsed": "<p>Blog posts from individual members</p>\n",
-        "bgColor": "#86ba4b",
-        "color": "#ffffff",
-        "icon" : "fa-newspaper-o",
-        "order": 4
-    },
-    {
-        "name": "Comments & Feedback",
-        "description": "Got a question? Ask away!",
-        "descriptionParsed": "<p>Got a question? Ask away!</p>\n",
+        "name": "公告通知",
+        "description": "社区公告和重要通知",
+        "descriptionParsed": "<p>社区公告和重要通知</p>\n",
         "bgColor": "#e95c5a",
         "color": "#ffffff",
-        "icon" : "fa-question",
+        "icon" : "fa-bullhorn",
         "order": 3
+    },
+    {
+        "name": "学习笔记",
+        "description": "用户分享的学习心得和笔记",
+        "descriptionParsed": "<p>用户分享的学习心得和笔记</p>\n",
+        "bgColor": "#86ba4b",
+        "color": "#ffffff",
+        "icon" : "fa-book",
+        "order": 4
     }
 ]

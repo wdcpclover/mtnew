@@ -15,7 +15,7 @@ const PROD_CONFIG = {
 };
 
 // 当前环境 (可根据小程序的 envVersion 自动判断)
-const isDev = false; // 开发时设为 true，上线时改为 false
+const isDev = true; // 开发时设为 true，上线时改为 false
 
 const config = isDev ? DEV_CONFIG : PROD_CONFIG;
 

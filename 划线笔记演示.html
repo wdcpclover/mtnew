@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>划线笔记功能演示 - 莫提之地</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .toolbar {
+      background: #f8f9fa;
+      padding: 15px 30px;
+      border-bottom: 1px solid #dee2e6;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .toolbar button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-highlight {
+      background: #ffd700;
+      color: #333;
+    }
+
+    .btn-highlight:hover {
+      background: #ffed4e;
+      transform: translateY(-2px);
+    }
+
+    .btn-clear {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-clear:hover {
+      background: #c82333;
+    }
+
+    .btn-save {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background: #218838;
+    }
+
+    .color-picker {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .color-option {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.active {
+      border-color: #333;
+      box-shadow: 0 0 0 2px white, 0 0 0 4px #333;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .article {
+      font-size: 18px;
+      line-height: 2;
+      color: #333;
+      user-select: text;
+    }
+
+    .article h2 {
+      font-size: 24px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #667eea;
+    }
+
+    .article p {
+      margin-bottom: 20px;
+      text-indent: 2em;
+    }
+
+    .highlight {
+      padding: 2px 0;
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .highlight:hover::after {
+      content: '📝';
+      position: absolute;
+      right: -20px;
+      top: -2px;
+      font-size: 14px;
+    }
+
+    .note-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      z-index: 1000;
+      display: none;
+      min-width: 400px;
+    }
+
+    .note-panel.active {
+      display: block;
+    }
+
+    .note-panel h3 {
+      margin-bottom: 15px;
+      color: #667eea;
+    }
+
+    .note-panel .selected-text {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #667eea;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .note-panel textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+    }
+
+    .note-panel .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      justify-content: flex-end;
+    }
+
+    .note-panel button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-save-note {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-cancel {
+      background: #6c757d;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    .notes-list {
+      background: #f8f9fa;
+      padding: 30px;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .notes-list h3 {
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+
+    .note-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid;
+    }
+
+    .note-item .note-content {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .note-item .note-text {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .note-item .note-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .note-item button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-edit {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .status {
+      padding: 10px 20px;
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      border-radius: 6px;
+      color: #0c5460;
+      font-size: 14px;
+    }
+
+    .status.success {
+      background: #d4edda;
+      border-color: #c3e6cb;
+      color: #155724;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      border-color: #f5c6cb;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📝 划线笔记功能演示</h1>
+      <p>选中文章中的文字，点击高亮按钮即可添加笔记</p>
+    </header>
+
+    <div class="toolbar">
+      <button class="btn-highlight" onclick="highlightSelection()">✨ 高亮选中文字</button>
+
+      <div class="color-picker">
+        <span style="font-size: 14px; color: #666;">颜色:</span>
+        <div class="color-option active" style="background: #ffeb3b;" data-color="#ffeb3b" onclick="selectColor(this)"></div>
+        <div class="color-option" style="background: #4caf50;" data-color="#4caf50" onclick="selectColor(this)"></div>
+        <div class="color-option" style="background: #ff5722;" data-color="#ff5722" onclick="selectColor(this)"></div>
+        <div class="color-option" style="background: #2196f3;" data-color="#2196f3" onclick="selectColor(this)"></div>
+        <div class="color-option" style="background: #e91e63;" data-color="#e91e63" onclick="selectColor(this)"></div>
+      </div>
+
+      <button class="btn-clear" onclick="clearAllHighlights()">🗑️ 清除所有高亮</button>
+      <button class="btn-save" onclick="saveAllNotes()">💾 保存所有笔记</button>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <div class="content">
+      <article class="article" id="article">
+        <h2>莫提之地的传说</h2>
+        <p>在遥远的东方，有一片神秘的土地，人们称之为"莫提之地"。这里四季如春，山川秀美，是一个充满智慧和传奇的地方。</p>
+
+        <p>据古老的传说记载，莫提之地原本是一片荒芜之地。然而，一位智者来到这里，用他的智慧和知识改变了这片土地的命运。他教导人们如何耕种、如何建造、如何生活，更重要的是，他教会了人们如何思考。</p>
+
+        <h2>知识的力量</h2>
+        <p>智者建立了一座宏伟的图书馆，收藏了世界各地的知识和智慧。他相信，知识是改变世界最强大的力量。每个来到莫提之地的人，都可以免费进入图书馆学习，汲取知识的养分。</p>
+
+        <p>随着时间的推移，莫提之地变得越来越繁荣。这里的人们不仅拥有丰富的物质生活，更重要的是，他们拥有开放的思想和求知的精神。他们相互分享知识，共同进步，创造了一个真正的知识乐园。</p>
+
+        <h2>永恒的传承</h2>
+        <p>智者离开后，莫提之地的人们继续传承着他的教诲。他们明白，真正的财富不是金银财宝，而是头脑中的知识和心中的智慧。每一代人都在为下一代积累更多的知识，让莫提之地的传说永远流传下去。</p>
+
+        <p>今天，当我们谈论莫提之地时，不仅是在讲述一个古老的传说，更是在传递一种精神——对知识的渴望，对智慧的追求，对分享的热爱。这就是莫提之地最珍贵的遗产。</p>
+      </article>
+    </div>
+
+    <div class="notes-list" id="notesList">
+      <h3>我的笔记 (<span id="notesCount">0</span>)</h3>
+      <div id="notesContainer"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeNotePanel()"></div>
+
+  <div class="note-panel" id="notePanel">
+    <h3>添加笔记</h3>
+    <div class="selected-text" id="selectedText"></div>
+    <textarea id="noteInput" placeholder="在这里写下你的想法和笔记..."></textarea>
+    <div class="buttons">
+      <button class="btn-cancel" onclick="closeNotePanel()">取消</button>
+      <button class="btn-save-note" onclick="saveNote()">保存笔记</button>
+    </div>
+  </div>
+
+  <script>
+    let currentColor = '#ffeb3b';
+    let highlights = [];
+    let currentSelection = null;
+
+    // 选择颜色
+    function selectColor(element) {
+      document.querySelectorAll('.color-option').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      currentColor = element.dataset.color;
+    }
+
+    // 高亮选中文字
+    function highlightSelection() {
+      const selection = window.getSelection();
+      if (!selection.rangeCount || selection.isCollapsed) {
+        showStatus('请先选中一段文字', 'error');
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      const selectedText = selection.toString().trim();
+
+      if (!selectedText) {
+        showStatus('选中的文字不能为空', 'error');
+        return;
+      }
+
+      // 保存当前选择信息
+      currentSelection = {
+        text: selectedText,
+        range: range.cloneRange(),
+        color: currentColor
+      };
+
+      // 显示笔记面板
+      document.getElementById('selectedText').textContent = `"${selectedText}"`;
+      document.getElementById('overlay').classList.add('active');
+      document.getElementById('notePanel').classList.add('active');
+      document.getElementById('noteInput').value = '';
+      document.getElementById('noteInput').focus();
+    }
+
+    // 保存笔记
+    function saveNote() {
+      const noteText = document.getElementById('noteInput').value.trim();
+
+      if (!currentSelection) {
+        showStatus('没有选中的文字', 'error');
+        return;
+      }
+
+      // 创建高亮元素
+      const span = document.createElement('span');
+      span.className = 'highlight';
+      span.style.backgroundColor = currentSelection.color;
+      span.textContent = currentSelection.text;
+
+      // 替换选中的文字
+      try {
+        currentSelection.range.deleteContents();
+        currentSelection.range.insertNode(span);
+      } catch (e) {
+        console.error('插入高亮失败:', e);
+        showStatus('添加高亮失败，请重试', 'error');
+        closeNotePanel();
+        return;
+      }
+
+      // 保存笔记信息
+      const highlight = {
+        id: Date.now(),
+        text: currentSelection.text,
+        note: noteText,
+        color: currentSelection.color,
+        timestamp: new Date().toLocaleString('zh-CN')
+      };
+
+      highlights.push(highlight);
+
+      // 显示笔记
+      renderNotes();
+
+      // 关闭面板
+      closeNotePanel();
+
+      showStatus('笔记添加成功！', 'success');
+
+      // 清除选择
+      window.getSelection().removeAllRanges();
+    }
+
+    // 关闭笔记面板
+    function closeNotePanel() {
+      document.getElementById('overlay').classList.remove('active');
+      document.getElementById('notePanel').classList.remove('active');
+      currentSelection = null;
+    }
+
+    // 渲染笔记列表
+    function renderNotes() {
+      const container = document.getElementById('notesContainer');
+      const count = document.getElementById('notesCount');
+
+      count.textContent = highlights.length;
+
+      if (highlights.length === 0) {
+        container.innerHTML = '<p style="color: #999; text-align: center;">还没有添加任何笔记</p>';
+        return;
+      }
+
+      container.innerHTML = highlights.map(h => `
+        <div class="note-item" style="border-left-color: ${h.color};">
+          <div class="note-content">"${h.text}"</div>
+          ${h.note ? `<div class="note-text">${h.note}</div>` : '<div class="note-text" style="color: #999;">（无笔记）</div>'}
+          <div style="font-size: 12px; color: #999; margin-bottom: 10px;">${h.timestamp}</div>
+          <div class="note-actions">
+            <button class="btn-delete" onclick="deleteNote(${h.id})">删除</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 删除笔记
+    function deleteNote(id) {
+      if (!confirm('确定要删除这条笔记吗？')) return;
+
+      highlights = highlights.filter(h => h.id !== id);
+      renderNotes();
+      showStatus('笔记已删除', 'success');
+    }
+
+    // 清除所有高亮
+    function clearAllHighlights() {
+      if (highlights.length === 0) {
+        showStatus('没有可清除的高亮', 'error');
+        return;
+      }
+
+      if (!confirm('确定要清除所有高亮和笔记吗？')) return;
+
+      // 重新加载文章内容
+      location.reload();
+    }
+
+    // 保存所有笔记到服务器
+    async function saveAllNotes() {
+      if (highlights.length === 0) {
+        showStatus('没有可保存的笔记', 'error');
+        return;
+      }
+
+      showStatus('正在保存笔记...', '');
+
+      try {
+        // 这里可以调用真实的API保存笔记
+        // 现在只是模拟保存
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        showStatus(`成功保存 ${highlights.length} 条笔记！`, 'success');
+
+        // 在实际应用中，这里会调用类似这样的API：
+        // for (const highlight of highlights) {
+        //   await fetch('http://localhost:4567/api/moti/notes', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //       pid: 1, // 帖子ID
+        //       content: highlight.text,
+        //       note: highlight.note,
+        //       color: highlight.color,
+        //       startOffset: 0,
+        //       endOffset: highlight.text.length
+        //     })
+        //   });
+        // }
+
+      } catch (error) {
+        showStatus('保存失败: ' + error.message, 'error');
+      }
+    }
+
+    // 显示状态消息
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = 'status';
+      if (type) status.classList.add(type);
+
+      if (message) {
+        setTimeout(() => {
+          status.textContent = '';
+          status.className = 'status';
+        }, 3000);
+      }
+    }
+
+    // 初始化
+    renderNotes();
+  </script>
+</body>
+</html>

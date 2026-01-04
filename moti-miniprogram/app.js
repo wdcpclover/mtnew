@@ -37,18 +37,27 @@ App({
   },
 
   // 验证 Token 有效性
-  validateToken() {
-    api.getUserProfile()
-      .then(user => {
-        // Token 有效，更新用户信息
-        this.globalData.userInfo = user
-        api.setUser(user)
-      })
-      .catch(err => {
-        console.log('Token 验证失败:', err)
-        // Token 无效，清除登录状态
-        this.logout()
-      })
+  async validateToken() {
+    try {
+      // 获取完整的用户信息
+      const user = await api.getUserProfile()
+
+      // 合并本地已有的信息和服务器返回的信息
+      const fullUserInfo = {
+        ...this.globalData.userInfo,
+        ...user
+      }
+
+      // 更新全局状态和本地存储
+      this.globalData.userInfo = fullUserInfo
+      api.setUser(fullUserInfo)
+
+      console.log('Token 验证成功，用户信息已更新')
+    } catch (err) {
+      console.log('Token 验证失败:', err)
+      // Token 无效，清除登录状态
+      this.logout()
+    }
   },
 
   // 设置深色模式

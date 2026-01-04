@@ -1,0 +1,52 @@
+#!/usr/bin/expect -f
+set timeout 120
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 创建 SSL 目录
+send "mkdir -p /etc/nginx/ssl\r"
+expect "# "
+
+# 移动证书文件
+send "mv /tmp/motizhidi.cn_bundle.crt /etc/nginx/ssl/ && mv /tmp/motizhidi.cn.key /etc/nginx/ssl/\r"
+expect "# "
+
+# 设置权限
+send "chmod 600 /etc/nginx/ssl/motizhidi.cn.key && chmod 644 /etc/nginx/ssl/motizhidi.cn_bundle.crt\r"
+expect "# "
+
+# 移动 nginx 配置
+send "mv /tmp/motizhidi.cn.conf /etc/nginx/conf.d/\r"
+expect "# "
+
+# 查看 nginx 默认配置，确认没有冲突
+send "ls -la /etc/nginx/conf.d/\r"
+expect "# "
+
+# 测试 nginx 配置
+send "nginx -t\r"
+expect "# "
+
+# 启动 nginx
+send "systemctl enable nginx && systemctl start nginx\r"
+expect "# "
+
+# 检查 nginx 状态
+send "systemctl status nginx | head -5\r"
+expect "# "
+
+# 开放 443 端口
+send "firewall-cmd --permanent --add-port=443/tcp 2>/dev/null; firewall-cmd --reload 2>/dev/null || echo 'firewall not running'\r"
+expect "# "
+
+send "exit\r"
+expect eof

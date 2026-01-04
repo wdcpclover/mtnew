@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+set timeout 60
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 将校验文件放到 NodeBB 的 public 目录
+send "cp /tmp/yK3zOoaDw5.txt /root/nodebb/public/\r"
+expect "# "
+
+# 设置权限
+send "chmod 644 /root/nodebb/public/yK3zOoaDw5.txt\r"
+expect "# "
+
+# 验证文件存在
+send "ls -la /root/nodebb/public/yK3zOoaDw5.txt\r"
+expect "# "
+
+# 测试访问
+send "curl -s http://127.0.0.1:4567/yK3zOoaDw5.txt\r"
+expect "# "
+
+send "exit\r"
+expect eof

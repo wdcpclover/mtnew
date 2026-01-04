@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>莫提之地API测试页面</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .api-section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .api-section h2 {
+      color: #667eea;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+    .api-item {
+      margin: 15px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+    .api-url {
+      font-family: 'Courier New', monospace;
+      color: #495057;
+      margin: 10px 0;
+      font-size: 14px;
+      word-break: break-all;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .result {
+      margin-top: 15px;
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .success {
+      border-left: 4px solid #28a745;
+    }
+    .error {
+      border-left: 4px solid #dc3545;
+      background: #f8d7da;
+    }
+    .loading {
+      color: #667eea;
+      font-style: italic;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+    .badge-get {
+      background: #28a745;
+      color: white;
+    }
+    .badge-post {
+      background: #ffc107;
+      color: #333;
+    }
+    .badge-status {
+      background: #17a2b8;
+      color: white;
+    }
+    .info-box {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .info-box h3 {
+      color: #0c5460;
+      margin-bottom: 10px;
+    }
+    .info-box ul {
+      margin-left: 20px;
+      color: #0c5460;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 莫提之地 API 测试页面</h1>
+
+    <div class="info-box">
+      <h3>📝 说明</h3>
+      <ul>
+        <li>这是为小程序开发的后端 API 接口</li>
+        <li>点击"测试"按钮可以查看每个接口的返回数据</li>
+        <li>绿色边框 = 成功，红色边框 = 失败</li>
+        <li>后续小程序会调用这些接口获取数据</li>
+      </ul>
+    </div>
+
+    <!-- 插件状态 -->
+    <div class="api-section">
+      <h2>🔌 插件状态检查</h2>
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>测试接口</strong>
+        </div>
+        <div class="api-url">GET /api/moti/test</div>
+        <button onclick="testAPI('/api/moti/test', 'test-result')">测试</button>
+        <button onclick="openInBrowser('/api/moti/test')">浏览器打开</button>
+        <div id="test-result"></div>
+      </div>
+    </div>
+
+    <!-- 用户相关API -->
+    <div class="api-section">
+      <h2>👤 用户相关 API</h2>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>获取用户信息</strong>
+        </div>
+        <div class="api-url">GET /api/moti/user/profile</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          需要登录，返回用户信息、VIP状态、积分等
+        </p>
+        <button onclick="testAPI('/api/moti/user/profile', 'profile-result')">测试（需登录）</button>
+        <div id="profile-result"></div>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post">POST</span>
+          <span class="badge badge-status" style="background: #ffc107; color: #333;">待完善</span>
+          <strong>微信登录</strong>
+        </div>
+        <div class="api-url">POST /api/moti/auth/wechat</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          参数: { "code": "wx_login_code" }
+        </p>
+      </div>
+    </div>
+
+    <!-- 内容相关API -->
+    <div class="api-section">
+      <h2>📄 内容相关 API</h2>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>获取帖子列表</strong>
+        </div>
+        <div class="api-url">GET /api/moti/posts?page=1&sort=recent</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          支持排序: recent(最新), popular(最热), mostbookmarked(最多收藏)
+        </p>
+        <button onclick="testAPI('/api/moti/posts?page=1&sort=recent', 'posts-result')">测试</button>
+        <button onclick="openInBrowser('/api/moti/posts?page=1&sort=recent')">浏览器打开</button>
+        <div id="posts-result"></div>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>获取帖子详情</strong>
+        </div>
+        <div class="api-url">GET /api/moti/post/:pid</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          ⚠️ 权限控制: 未付费用户每日限读1篇，VIP用户无限制
+        </p>
+        <button onclick="testAPI('/api/moti/post/1', 'post-detail-result')">测试（帖子ID=1）</button>
+        <div id="post-detail-result"></div>
+      </div>
+    </div>
+
+    <!-- 互动相关API -->
+    <div class="api-section">
+      <h2>❤️ 互动相关 API</h2>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post">POST</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>点赞帖子</strong>
+        </div>
+        <div class="api-url">POST /api/moti/post/:pid/upvote</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          需要登录
+        </p>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post">POST</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>收藏帖子</strong>
+        </div>
+        <div class="api-url">POST /api/moti/post/:pid/bookmark</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          需要登录
+        </p>
+      </div>
+    </div>
+
+    <!-- 笔记相关API -->
+    <div class="api-section">
+      <h2>📝 笔记相关 API</h2>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post">POST</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>保存笔记</strong>
+        </div>
+        <div class="api-url">POST /api/moti/notes</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          参数: { "pid": 1, "content": "划线内容", "note": "笔记", "startOffset": 0, "endOffset": 10, "color": "#ffeb3b" }
+        </p>
+        <button onclick="testSaveNote()">测试保存笔记（需登录）</button>
+        <div id="save-note-result"></div>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>获取用户笔记</strong>
+        </div>
+        <div class="api-url">GET /api/moti/notes?page=1&limit=20</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          需要登录，返回用户的所有笔记
+        </p>
+        <button onclick="testAPI('/api/moti/notes?page=1&limit=20', 'user-notes-result')">测试（需登录）</button>
+        <div id="user-notes-result"></div>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>获取帖子笔记</strong>
+        </div>
+        <div class="api-url">GET /api/moti/post/:pid/notes</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          获取指定帖子的所有笔记
+        </p>
+        <button onclick="testAPI('/api/moti/post/1/notes', 'post-notes-result')">测试（帖子ID=1）</button>
+        <div id="post-notes-result"></div>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post">PUT</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>更新笔记</strong>
+        </div>
+        <div class="api-url">PUT /api/moti/notes/:noteId</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          参数: { "note": "更新的笔记内容", "color": "#ff5722" }
+        </p>
+      </div>
+
+      <div class="api-item">
+        <div>
+          <span class="badge badge-post" style="background: #dc3545;">DELETE</span>
+          <span class="badge badge-status">已实现</span>
+          <strong>删除笔记</strong>
+        </div>
+        <div class="api-url">DELETE /api/moti/notes/:noteId</div>
+        <p style="color: #6c757d; font-size: 13px; margin-top: 5px;">
+          需要登录
+        </p>
+      </div>
+    </div>
+
+    <!-- 统计信息 -->
+    <div class="api-section">
+      <h2>📊 开发进度</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="padding: 15px; background: #d4edda; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #155724;">100%</div>
+          <div style="color: #155724; margin-top: 5px;">插件骨架</div>
+        </div>
+        <div style="padding: 15px; background: #d4edda; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #155724;">100%</div>
+          <div style="color: #155724; margin-top: 5px;">权限控制</div>
+        </div>
+        <div style="padding: 15px; background: #fff3cd; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #856404;">70%</div>
+          <div style="color: #856404; margin-top: 5px;">用户API</div>
+        </div>
+        <div style="padding: 15px; background: #fff3cd; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #856404;">80%</div>
+          <div style="color: #856404; margin-top: 5px;">内容API</div>
+        </div>
+        <div style="padding: 15px; background: #d4edda; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #155724;">100%</div>
+          <div style="color: #155724; margin-top: 5px;">笔记功能</div>
+        </div>
+        <div style="padding: 15px; background: #f8d7da; border-radius: 8px; text-align: center;">
+          <div style="font-size: 32px; font-weight: bold; color: #721c24;">0%</div>
+          <div style="color: #721c24; margin-top: 5px;">支付系统</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = 'http://localhost:4567';
+
+    async function testAPI(endpoint, resultId) {
+      const resultDiv = document.getElementById(resultId);
+      resultDiv.className = 'result loading';
+      resultDiv.textContent = '正在请求...';
+
+      try {
+        const response = await fetch(BASE_URL + endpoint);
+        const data = await response.json();
+
+        resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '请求失败: ' + error.message + '\n\n请确保 NodeBB 正在运行: http://localhost:4567';
+      }
+    }
+
+    function openInBrowser(endpoint) {
+      window.open(BASE_URL + endpoint, '_blank');
+    }
+
+    async function testSaveNote() {
+      const resultDiv = document.getElementById('save-note-result');
+      resultDiv.className = 'result loading';
+      resultDiv.textContent = '正在请求...';
+
+      try {
+        const response = await fetch(BASE_URL + '/api/moti/notes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            pid: 1,
+            content: '这是被划线的文本内容',
+            note: '这是我的笔记',
+            startOffset: 0,
+            endOffset: 12,
+            color: '#ffeb3b'
+          })
+        });
+        const data = await response.json();
+
+        resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.className = 'result error';
+        resultDiv.textContent = '请求失败: ' + error.message;
+      }
+    }
+
+    // 页面加载时自动测试第一个接口
+    window.onload = () => {
+      testAPI('/api/moti/test', 'test-result');
+    };
+  </script>
+</body>
+</html>

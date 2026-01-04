@@ -34,50 +34,25 @@ Page({
     this.setData({ loading: true })
 
     try {
-      if (api.getFavorites) {
-        const result = await api.getFavorites()
-        const favorites = result.favorites || result || []
+      // 调用真实 API
+      const result = await api.getUserBookmarks(1, 100)
+      const favorites = result.posts || result.bookmarks || result || []
 
-        this.setData({
-          favorites: favorites.map(item => ({
-            ...item,
-            isHot: item.isHot || item.hot || Math.random() > 0.3 // 模拟热门标签
-          })),
-          loading: false
-        })
-      } else {
-        // 加载模拟数据
-        this.loadMockData()
-      }
+      this.setData({
+        favorites: favorites.map(item => ({
+          id: item.pid || item.id,
+          title: item.title || item.titleRaw,
+          isHot: item.votes > 10 || item.viewcount > 100
+        })),
+        loading: false
+      })
     } catch (err) {
       console.error('加载收藏失败:', err)
-      // 加载模拟数据
-      this.loadMockData()
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' })
+      this.setData({ favorites: [], loading: false })
     }
   },
 
-  // 加载模拟数据
-  loadMockData() {
-    const mockFavorites = [
-      { id: 1, title: '如何在极度焦虑的现代生活中保持内心宁静?', isHot: true },
-      { id: 2, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 3, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 4, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 5, title: '恋爱时双方的高我会怎么沟通?', isHot: true },
-      { id: 6, title: '守不住财是什么原因?', isHot: true },
-      { id: 7, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 8, title: '每周讨论：你认为物质极简能否带来精神富足?', isHot: false },
-      { id: 9, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 10, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 11, title: '如何看待星光体旅行获得的信息?', isHot: true },
-      { id: 12, title: '如何看待星光体旅行获得的信息?', isHot: true }
-    ]
-
-    this.setData({
-      favorites: mockFavorites,
-      loading: false
-    })
-  },
 
   // 返回
   goBack() {
@@ -128,9 +103,8 @@ Page({
           this.setData({ favorites })
 
           try {
-            if (api.removeFavorite) {
-              await api.removeFavorite(id)
-            }
+            // 使用 toggleBookmark 取消收藏
+            await api.toggleBookmark(id)
             wx.showToast({ title: '已删除', icon: 'success' })
           } catch (err) {
             // 恢复数据

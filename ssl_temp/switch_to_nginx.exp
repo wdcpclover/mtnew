@@ -1,0 +1,40 @@
+#!/usr/bin/expect -f
+set timeout 60
+set password "AYoEI^3S@lf9Tp90Fl"
+
+spawn ssh -o StrictHostKeyChecking=no root@110.42.230.103
+
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+
+expect "# "
+
+# 停止并禁用 httpd
+send "systemctl stop httpd && systemctl disable httpd\r"
+expect "# "
+
+# 修复 nginx 配置中的 http2 警告
+send "sed -i 's/listen 443 ssl http2;/listen 443 ssl;\\n    http2 on;/' /etc/nginx/conf.d/motizhidi.cn.conf\r"
+expect "# "
+
+# 测试配置
+send "nginx -t\r"
+expect "# "
+
+# 启动 nginx
+send "systemctl start nginx\r"
+expect "# "
+
+# 检查状态
+send "systemctl status nginx | head -5\r"
+expect "# "
+
+# 检查端口
+send "ss -tlnp | grep -E ':80|:443'\r"
+expect "# "
+
+send "exit\r"
+expect eof

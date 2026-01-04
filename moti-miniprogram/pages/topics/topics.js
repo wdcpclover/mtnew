@@ -3,6 +3,7 @@
  */
 
 const app = getApp()
+const api = require('../../utils/api')
 
 Page({
   data: {
@@ -57,14 +58,41 @@ Page({
     this.setData({ loading: true })
 
     try {
-      // TODO: 替换为真实 API
-      await this.sleep(600)
-      const chapters = this.getMockChapters()
+      // 获取所有分类
+      const result = await api.getCategories()
+      const categories = result.categories || result || []
+
+      // 将分类数据转换为章节格式
+      const chapters = await Promise.all(
+        categories.map(async (cat, index) => {
+          // 获取该分类下的主题列表
+          let articles = []
+          try {
+            const topicsResult = await api.getCategoryTopics(cat.cid, { page: 1, limit: 10 })
+            articles = (topicsResult.topics || topicsResult || []).map(topic => ({
+              id: topic.tid || topic.id,
+              title: topic.title || topic.titleRaw,
+              isRead: false // 暂时设为未读，后续可以根据用户阅读历史判断
+            }))
+          } catch (err) {
+            console.warn(`加载分类 ${cat.cid} 的主题失败:`, err)
+          }
+
+          return {
+            id: cat.cid,
+            category: cat.name,
+            title: cat.description || cat.name,
+            isActive: index === 0,
+            isExpanded: false,
+            articles: articles
+          }
+        })
+      )
 
       this.setData({ chapters })
     } catch (err) {
       console.error('加载章节失败:', err)
-      wx.showToast({ title: '加载失败', icon: 'none' })
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' })
     } finally {
       this.setData({ loading: false })
     }
@@ -141,54 +169,44 @@ Page({
 
   // 加载搜索建议
   async loadSuggestions(keyword) {
-    // TODO: 替换为真实 API
-    // const result = await api.getSearchSuggestions(keyword)
+    try {
+      // 搜索帖子标题
+      const result = await api.searchPosts(keyword, { page: 1, limit: 5 })
+      const posts = result.posts || result || []
 
-    // 模拟搜索建议
-    const mockSuggestions = this.getMockSuggestions(keyword)
+      const suggestions = posts.map(post => ({
+        id: post.pid || post.tid || post.id,
+        full: post.title || post.titleRaw,
+        rest: (post.title || post.titleRaw).substring(keyword.length)
+      }))
 
-    this.setData({
-      suggestions: mockSuggestions,
-      showSuggestions: mockSuggestions.length > 0
-    })
+      this.setData({
+        suggestions: suggestions,
+        showSuggestions: suggestions.length > 0
+      })
+    } catch (err) {
+      console.warn('搜索建议加载失败:', err)
+      this.setData({
+        suggestions: [],
+        showSuggestions: false
+      })
+    }
   },
 
   // 选择搜索建议
   selectSuggestion(e) {
     const item = e.currentTarget.dataset.item
-    const fullText = this.data.searchValue + item.rest
 
     this.setData({
-      searchValue: fullText,
+      searchValue: item.full,
       showSuggestions: false,
       isSearching: false
     })
 
-    // 跳转到搜索结果或文章
+    // 跳转到文章详情
     wx.navigateTo({
-      url: `/pages/search/search?keyword=${encodeURIComponent(fullText)}`
+      url: `/pages/article/article?id=${item.id}`
     })
-  },
-
-  // 获取模拟搜索建议
-  getMockSuggestions(keyword) {
-    const allSuggestions = [
-      { id: 1, full: '如何提升自我能量' },
-      { id: 2, full: '如何提升稳定性' },
-      { id: 3, full: '如何提升自我认知' },
-      { id: 4, full: '如何提升自我能量' },
-      { id: 5, full: '如何提升自我能量' }
-    ]
-
-    // 过滤匹配的建议，并计算剩余部分
-    return allSuggestions
-      .filter(item => item.full.startsWith(keyword))
-      .map(item => ({
-        id: item.id,
-        full: item.full,
-        rest: item.full.substring(keyword.length)
-      }))
-      .slice(0, 5)
   },
 
   // ============ 展开/收起 ============
@@ -277,133 +295,5 @@ Page({
     wx.navigateTo({
       url: `/pages/article/article?id=${article.id}&title=${encodeURIComponent(article.title)}`
     })
-  },
-
-  // ============ 工具方法 ============
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  },
-
-  // 模拟数据
-  getMockChapters() {
-    return [
-      {
-        id: 1,
-        category: '兴奋公式',
-        title: '一/道/真理/真相?',
-        isActive: true,
-        isExpanded: false,
-        articles: [
-          { id: 101, title: '如何看待星光体旅行获得的信息？', isRead: false },
-          { id: 102, title: '如何看待星光体旅行获得的信息？', isRead: false },
-          { id: 103, title: '如何看待星光体旅行获得的信息？', isRead: true }
-        ]
-      },
-      {
-        id: 2,
-        category: '兴奋公式',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 201, title: '如何看待星光体旅行获得的信息？', isRead: false }
-        ]
-      },
-      {
-        id: 3,
-        category: '信念',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 301, title: '如何看待星光体旅行获得的信息？', isRead: false },
-          { id: 302, title: '如何看待星光体旅行获得的信息？', isRead: true }
-        ]
-      },
-      {
-        id: 4,
-        category: '信念',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 401, title: '如何看待星光体旅行获得的信息？', isRead: false }
-        ]
-      },
-      {
-        id: 5,
-        category: '意识许可',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 501, title: '关于真理', isRead: false },
-          { id: 502, title: '如何看待星光体旅行获得的信息？', isRead: false }
-        ]
-      },
-      {
-        id: 6,
-        category: '意识许可',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 601, title: '如何看待星光体旅行获得的信息？', isRead: false }
-        ]
-      },
-      {
-        id: 7,
-        category: '信念',
-        title: '一/道/真理/真相?',
-        isActive: false,
-        isExpanded: false,
-        articles: [
-          { id: 701, title: '一／道／真理／真相?', isRead: false },
-          { id: 702, title: '如何看待星光体旅行获得的信息？', isRead: true },
-          { id: 703, title: '如何看待星光体旅行获得的信息？', isRead: false }
-        ]
-      },
-      {
-        id: 8,
-        category: '信念',
-        title: '',
-        isActive: false,
-        isExpanded: false,
-        articles: []
-      },
-      {
-        id: 9,
-        category: '信念',
-        title: '',
-        isActive: false,
-        isExpanded: false,
-        articles: []
-      },
-      {
-        id: 10,
-        category: '信念',
-        title: '',
-        isActive: false,
-        isExpanded: false,
-        articles: []
-      },
-      {
-        id: 11,
-        category: '意识许可',
-        title: '',
-        isActive: false,
-        isExpanded: false,
-        articles: []
-      },
-      {
-        id: 12,
-        category: '意识许可',
-        title: '',
-        isActive: false,
-        isExpanded: false,
-        articles: []
-      }
-    ]
   }
 })
