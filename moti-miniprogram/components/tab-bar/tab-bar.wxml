@@ -1,57 +1,66 @@
-<view class="tab-bar safe-area-bottom {{darkMode ? 'dark' : ''}}">
-  <view
-    class="tab-bar-item {{current === 0 ? 'active' : ''}}"
-    bindtap="switchTab"
-    data-index="0"
-    data-url="/pages/index/index"
-  >
-    <image
-      class="tab-bar-icon"
-      src="/images/icons/tab-inspire-{{current === 0 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
-      mode="aspectFit"
-    />
-    <text class="tab-bar-label">最新</text>
-  </view>
+<view class="tab-bar {{darkMode ? 'dark' : ''}}">
+  <!-- 顶部边框线 -->
+  <view class="tab-bar-border"></view>
 
-  <view
-    class="tab-bar-item {{current === 1 ? 'active' : ''}}"
-    bindtap="switchTab"
-    data-index="1"
-    data-url="/pages/topics/topics"
-  >
-    <image
-      class="tab-bar-icon"
-      src="/images/icons/tab-message-{{current === 1 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
-      mode="aspectFit"
-    />
-    <text class="tab-bar-label">合集</text>
-  </view>
+  <view class="tab-bar-content">
+    <!-- 最新 -->
+    <view
+      class="tab-bar-item {{current === 0 ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-index="0"
+      data-url="/pages/index/index"
+    >
+      <image
+        class="tab-bar-icon"
+        src="/images/icons/tab/zuixin-{{current === 0 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+        mode="aspectFit"
+      />
+      <text class="tab-bar-label">最新</text>
+    </view>
 
-  <view
-    class="tab-bar-item {{current === 2 ? 'active' : ''}}"
-    bindtap="switchTab"
-    data-index="2"
-    data-url="/pages/community/community"
-  >
-    <image
-      class="tab-bar-icon"
-      src="/images/icons/tab-users-{{current === 2 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
-      mode="aspectFit"
-    />
-    <text class="tab-bar-label">提问</text>
-  </view>
+    <!-- 合集 -->
+    <view
+      class="tab-bar-item {{current === 1 ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-index="1"
+      data-url="/pages/topics/topics"
+    >
+      <image
+        class="tab-bar-icon"
+        src="/images/icons/tab/heji-{{current === 1 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+        mode="aspectFit"
+      />
+      <text class="tab-bar-label">合集</text>
+    </view>
 
-  <view
-    class="tab-bar-item {{current === 3 ? 'active' : ''}}"
-    bindtap="switchTab"
-    data-index="3"
-    data-url="/pages/profile/profile"
-  >
-    <image
-      class="tab-bar-icon"
-      src="/images/icons/tab-profile-{{current === 3 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
-      mode="aspectFit"
-    />
-    <text class="tab-bar-label">我的</text>
+    <!-- 提问 -->
+    <view
+      class="tab-bar-item {{current === 2 ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-index="2"
+      data-url="/pages/community/community"
+    >
+      <image
+        class="tab-bar-icon"
+        src="/images/icons/tab/tiwen-{{current === 2 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+        mode="aspectFit"
+      />
+      <text class="tab-bar-label">提问</text>
+    </view>
+
+    <!-- 我的 -->
+    <view
+      class="tab-bar-item {{current === 3 ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-index="3"
+      data-url="/pages/profile/profile"
+    >
+      <image
+        class="tab-bar-icon"
+        src="/images/icons/tab/wode-{{current === 3 ? (darkMode ? 'active-dark' : 'active') : (darkMode ? 'inactive-dark' : 'inactive')}}.svg"
+        mode="aspectFit"
+      />
+      <text class="tab-bar-label">我的</text>
+    </view>
   </view>
 </view>

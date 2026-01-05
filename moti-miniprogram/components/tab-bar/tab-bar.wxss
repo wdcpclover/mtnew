@@ -1,18 +1,28 @@
+/* 底部TabBar - 自适应贴底 */
+
 .tab-bar {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 140rpx;
+  bottom: 0;
   background-color: #FFFFFF;
-  border-top: 2rpx solid #F6F6F6;
   z-index: 999;
 }
 
-.safe-area-bottom {
+/* 顶部边框线 */
+.tab-bar-border {
+  width: 100%;
+  height: 1rpx;
+  background-color: #EEEEEE;
+}
+
+/* Tab内容区域 */
+.tab-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100rpx;
+  padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -25,34 +35,39 @@
   height: 100%;
 }
 
+/* 图标 24×24px = 48rpx */
 .tab-bar-icon {
   width: 48rpx;
   height: 48rpx;
-  margin-bottom: 8rpx;
+  margin-bottom: 4rpx;
 }
 
+/* 文字 - 未选中灰色 */
 .tab-bar-label {
   font-size: 20rpx;
   color: #AAAFBA;
+  line-height: 1.2;
 }
 
-/* Light mode - active: black text */
+/* 选中状态 */
 .tab-bar-item.active .tab-bar-label {
   color: #1F1F1F;
   font-weight: 500;
 }
 
-/* Dark Mode */
+/* ============ Dark Mode ============ */
 .tab-bar.dark {
   background-color: #1C1C1C;
-  border-top-color: #303030;
+}
+
+.tab-bar.dark .tab-bar-border {
+  background-color: #303030;
 }
 
 .tab-bar.dark .tab-bar-label {
-  color: #8E8E8E;
+  color: #6B6B6B;
 }
 
-/* Dark mode - active: white text */
 .tab-bar.dark .tab-bar-item.active .tab-bar-label {
   color: #E7E7E7;
 }
