@@ -6,18 +6,18 @@ page {
   --bg-search-input: #F3F4F6;
   --bg-content: #FFFFFF;
   --text-primary: #1F1F1F;
-  --text-secondary: #B9BABB;
-  --text-placeholder: #B9BABB;
+  --text-secondary: #9CA3AF;
+  --text-placeholder: #9CA3AF;
   --color-primary: #D7942B;
-  --divider-color: #F6F6F6;
+  --divider-color: #E5E7EB;
   --tab-active-color: #1F1F1F;
-  --tab-inactive-color: #AAAFBA;
+  --tab-inactive-color: #9CA3AF;
   --tab-top-active-color: #1F1F1F;
-  --tab-top-inactive-color: rgba(66, 66, 66, 0.5);
+  --tab-top-inactive-color: #9CA3AF;
   --message-btn-bg: #FFFFFF;
-  --message-btn-border: #EEEEEE;
+  --message-btn-border: #E5E7EB;
   --bottom-tab-bg: #FFFFFF;
-  --bottom-tab-border: #F6F6F6;
+  --bottom-tab-border: #E5E7EB;
 }
 
 .page.dark {
@@ -56,14 +56,14 @@ page {
 }
 
 /* ============ 导航栏 ============ */
-/* 顶部 Status Bar + Title 区域背景为页面背景色 */
+/* 顶部 Status Bar + Title 区域白底 */
 .nav-header {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32rpx;
-  background-color: var(--bg-page); 
+  background-color: var(--bg-header-block);
   z-index: 100;
 }
 
@@ -120,85 +120,99 @@ page {
 }
 
 /* ============ 搜索栏区域 ============ */
-/* 白色圆角背景块, 对应 SVG M0 90H390V140... */
+/* 390 × 62px 白色圆角背景块 */
 .search-section {
+  width: 100%;
   background-color: var(--bg-header-block);
-  padding: 32rpx 36rpx 24rpx; /* Top 16px, Side 18px, Bottom 12px */
-  border-bottom-left-radius: 24rpx;
-  border-bottom-right-radius: 24rpx;
+  border-bottom-left-radius: 24rpx; /* 12px */
+  border-bottom-right-radius: 24rpx; /* 12px */
   display: flex;
   align-items: center;
-  gap: 36rpx; /* Gap 18px */
+  justify-content: space-between;
+  padding: 32rpx 32rpx 24rpx 32rpx; /* top:16 right:16 bottom:12 left:16 */
+  box-sizing: border-box;
 }
 
+/* 搜索框 自适应宽度 */
 .search-input-wrapper {
   flex: 1;
+  height: 68rpx; /* 34px */
   display: flex;
   align-items: center;
-  height: 68rpx; /* Height 34px */
   padding: 0 24rpx;
   background-color: var(--bg-search-input);
-  border-radius: 16rpx; /* SVG rx=8 -> 16rpx */
+  border-radius: 16rpx;
   gap: 12rpx;
+  box-sizing: border-box;
+  margin-right: 24rpx;
 }
 
 .search-icon {
-  width: 32rpx;
-  height: 32rpx;
+  width: 36rpx; /* 18px */
+  height: 36rpx;
+  flex-shrink: 0;
 }
 
+/* 搜索文字 13号字 PingFang SC */
 .search-placeholder {
-  font-size: 28rpx;
-  color: var(--text-placeholder);
+  font-size: 26rpx; /* 13px */
+  font-family: 'PingFang SC', -apple-system, sans-serif;
+  color: var(--text-placeholder); /* #9CA3AF */
+  line-height: 36rpx; /* 18px */
 }
 
+/* 消息图标 24x24 跟搜索框垂直居中 */
 .message-btn {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48rpx;
+  width: 48rpx; /* 24px */
   height: 48rpx;
-  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .message-icon {
-  width: 32rpx;
-  height: 32rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
 
+/* 橙色未读徽章 */
 .badge {
   position: absolute;
-  top: -8rpx;
-  right: -8rpx;
-  min-width: 44rpx; /* Width 22px */
-  height: 34rpx; /* Height 17px */
-  padding: 0 6rpx;
-  background-color: var(--color-primary);
-  border-radius: 17rpx; /* Half of height */
+  top: -6rpx;
+  right: -6rpx;
+  min-width: 32rpx;
+  height: 28rpx;
+  padding: 0 8rpx;
+  background-color: var(--color-primary); /* 橙色 #D7942B */
+  border: 2rpx solid #FFFFFF;
+  border-radius: 14rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .badge text {
-  font-size: 20rpx;
+  font-size: 18rpx;
   color: #FFFFFF;
   font-weight: 600;
   line-height: 1;
 }
 
 /* ============ 内容区域 ============ */
-/* 对应 SVG M0 170... 白色大圆角卡片 */
+/* Frame 3015385: 390 × 603, top: 158px, radius-top: 12px, gap: 12px */
 .content-container {
   flex: 1;
   background-color: var(--bg-content);
-  margin-top: 12rpx; /* 158 - 152 = 6px -> 12rpx */
-  border-top-left-radius: 24rpx;
-  border-top-right-radius: 24rpx;
+  margin-top: 12rpx; /* 158 - 152 = 6px */
+  border-top-left-radius: 24rpx; /* 12px */
+  border-top-right-radius: 24rpx; /* 12px */
   display: flex;
   flex-direction: column;
+  gap: 24rpx; /* 12px */
   overflow: hidden;
 }
 
@@ -220,27 +234,28 @@ page {
 }
 
 .tab-item text {
-  font-size: 28rpx;
+  font-size: 26rpx; /* 13px */
+  font-family: 'PingFang SC', -apple-system, sans-serif;
   color: var(--tab-top-inactive-color);
-  font-weight: 400;
-  line-height: 40rpx;
+  font-weight: 500; /* Medium */
+  line-height: 36rpx;
 }
 
 .tab-item.active text {
   color: var(--tab-top-active-color);
-  font-weight: 600;
-  font-size: 28rpx;
+  font-weight: 500;
+  font-size: 26rpx; /* 13px */
 }
 
-/* 选中指示器: 金色短横线 */
+/* 选中指示器: 橙色短横线 */
 .tab-line {
   position: absolute;
   left: 50%;
   bottom: 2rpx;
-  width: 64rpx; /* Width 32 in SVG */
-  height: 6rpx; /* Height 3 in SVG */
+  width: 40rpx; /* 约20px */
+  height: 4rpx; /* 约2px */
   background-color: var(--color-primary);
-  border-radius: 3rpx;
+  border-radius: 2rpx;
   transform: translateX(-50%);
 }
 
@@ -267,9 +282,9 @@ page {
   flex: 0 1 auto;
   min-width: 0;
   display: block;
-  font-size: 30rpx;
+  font-size: 28rpx; /* 14px */
   color: var(--text-primary);
-  line-height: 44rpx;
+  line-height: 42rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

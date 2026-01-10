@@ -28,11 +28,15 @@ Page({
     const systemInfo = wx.getSystemInfoSync()
     const pages = getCurrentPages()
 
+    const darkMode = app.globalData.darkMode || false
     this.setData({
-      darkMode: app.globalData.darkMode || false,
+      darkMode,
       statusBarHeight: systemInfo.statusBarHeight,
       canGoBack: pages.length > 1
     })
+
+    // 设置系统导航栏颜色
+    this.updateNavBarColor(darkMode)
 
     // 获取用户信息
     if (app.globalData.userInfo) {
@@ -46,8 +50,20 @@ Page({
   },
 
   onShow() {
-    this.setData({
-      darkMode: app.globalData.darkMode || false
+    const darkMode = app.globalData.darkMode || false
+    this.setData({ darkMode })
+    this.updateNavBarColor(darkMode)
+  },
+
+  // 更新系统导航栏/胶囊颜色
+  updateNavBarColor(darkMode) {
+    wx.setNavigationBarColor({
+      frontColor: darkMode ? '#ffffff' : '#000000',
+      backgroundColor: darkMode ? '#1C1C1C' : '#FFFFFF',
+      animation: {
+        duration: 200,
+        timingFunc: 'easeIn'
+      }
     })
   },
 
@@ -78,6 +94,7 @@ Page({
     const darkMode = e.detail.value
     this.setData({ darkMode })
     app.setDarkMode(darkMode)
+    this.updateNavBarColor(darkMode)
   },
 
   // ============ 导航 ============
@@ -126,5 +143,22 @@ Page({
 
   goToSettings() {
     wx.navigateTo({ url: '/pages/profile-settings/profile-settings' })
+  },
+
+  // ============ 分享 ============
+
+  onShareAppMessage() {
+    return {
+      title: 'Moti 之地 - 发现有趣的问答',
+      path: '/pages/index/index',
+      imageUrl: '/images/share-cover.png'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: 'Moti 之地 - 发现有趣的问答',
+      imageUrl: '/images/share-cover.png'
+    }
   }
 })

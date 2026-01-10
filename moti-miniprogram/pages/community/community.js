@@ -243,5 +243,22 @@ Page({
     wx.navigateTo({
       url: `/pages/article/article?id=${id}`
     })
+  },
+
+  // ============ 分享 ============
+
+  onShareAppMessage() {
+    return {
+      title: 'Moti 之地 - 一起来提问',
+      path: '/pages/community/community',
+      imageUrl: '/images/share-cover.png'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: 'Moti 之地 - 一起来提问',
+      imageUrl: '/images/share-cover.png'
+    }
   }
 })

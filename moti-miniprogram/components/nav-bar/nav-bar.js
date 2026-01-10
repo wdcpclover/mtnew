@@ -15,6 +15,10 @@ Component({
     transparent: {
       type: Boolean,
       value: false
+    },
+    darkMode: {
+      type: Boolean,
+      value: false
     }
   },
 

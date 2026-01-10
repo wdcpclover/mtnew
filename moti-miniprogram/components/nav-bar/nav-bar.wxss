@@ -1,59 +1,78 @@
+/* 顶部导航栏 - 基准 390×90 */
+
 .nav-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 999;
-  background-color: var(--bg-primary);
-  transition: background-color 0.3s;
+  background-color: #FFFFFF;
+}
+
+/* 暗色模式 */
+.nav-bar.dark {
+  background-color: #1C1C1C;
 }
 
 .nav-bar.transparent {
   background-color: transparent;
 }
 
+/* 布局框：390 × 44 px → 750 × 85 rpx */
 .nav-bar-content {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24rpx;
+  height: 85rpx;
+  padding: 0 15rpx;
 }
 
-.nav-bar-left,
-.nav-bar-right {
+/* 左侧区域 - 固定宽度保证标题居中 */
+.nav-bar-left {
   display: flex;
   align-items: center;
   min-width: 100rpx;
 }
 
+/* 右侧区域 - 与左侧等宽 */
 .nav-bar-right {
+  display: flex;
+  align-items: center;
   justify-content: flex-end;
+  min-width: 100rpx;
 }
 
+/* 返回按钮：24 × 24 px → 46 × 46 rpx */
 .nav-bar-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 50%;
-  background-color: var(--bg-secondary);
+  width: 46rpx;
+  height: 46rpx;
 }
 
+/* 返回图标 */
 .nav-bar-icon {
-  width: 36rpx;
-  height: 36rpx;
+  width: 46rpx;
+  height: 46rpx;
 }
 
+/* 标题：128 × 21 px，字体 16px → 31rpx，居中 */
 .nav-bar-title {
   flex: 1;
   text-align: center;
-  font-size: 34rpx;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 31rpx;
+  font-weight: 500;
+  color: #1F1F1F;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* 暗色模式标题 */
+.nav-bar.dark .nav-bar-title {
+  color: #E7E7E7;
 }
 
 .nav-bar-placeholder {

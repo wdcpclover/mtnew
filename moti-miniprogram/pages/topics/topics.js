@@ -295,5 +295,22 @@ Page({
     wx.navigateTo({
       url: `/pages/article/article?id=${article.id}&title=${encodeURIComponent(article.title)}`
     })
+  },
+
+  // ============ 分享 ============
+
+  onShareAppMessage() {
+    return {
+      title: 'Moti 之地 - 精选合集',
+      path: '/pages/topics/topics',
+      imageUrl: '/images/share-cover.png'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: 'Moti 之地 - 精选合集',
+      imageUrl: '/images/share-cover.png'
+    }
   }
 })

@@ -312,15 +312,17 @@ Page({
   onShareAppMessage() {
     const article = this.data.article || {}
     return {
-      title: article.title || 'Moti 精选文章',
-      path: '/pages/article/article?id=' + this.data.articleId
+      title: article.title || 'Moti 之地 - 精选文章',
+      path: '/pages/article/article?id=' + this.data.articleId,
+      imageUrl: '/images/share-cover.png'
     }
   },
 
   onShareTimeline() {
     const article = this.data.article || {}
     return {
-      title: article.title || 'Moti 精选文章'
+      title: article.title || 'Moti 之地 - 精选文章',
+      imageUrl: '/images/share-cover.png'
     }
   },
 

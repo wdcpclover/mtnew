@@ -1,31 +1,9 @@
-<!-- 我的页面 -->
+<!-- 我的页面 - 1:1还原设计稿 -->
 <view class="page {{darkMode ? 'dark' : ''}}">
-  <view class="container" style="padding-top: {{statusBarHeight}}px;">
+  <!-- 导航栏组件 -->
+  <nav-bar title="莫提之地" darkMode="{{darkMode}}" showBack="{{true}}" />
 
-    <!-- 顶部导航栏 -->
-    <view class="nav-header">
-      <view class="nav-left">
-        <view class="back-btn" bindtap="handleBack" wx:if="{{canGoBack}}">
-          <image src="/images/icons/arrow-left{{darkMode ? '-white' : ''}}.svg" class="back-icon" mode="aspectFit" />
-        </view>
-      </view>
-      <view class="nav-center">
-        <text class="nav-title">莫提之地</text>
-      </view>
-      <view class="nav-right">
-        <view class="nav-capsule">
-          <view class="capsule-dots">
-            <view class="dot"></view>
-            <view class="dot dot-large"></view>
-            <view class="dot"></view>
-          </view>
-          <view class="capsule-divider"></view>
-          <view class="capsule-icon">
-            <image src="/images/icons/scan.svg" class="icon-img" mode="aspectFit" />
-          </view>
-        </view>
-      </view>
-    </view>
+  <view class="container" style="padding-top: {{statusBarHeight}}px;">
 
     <!-- 用户信息区 -->
     <view class="user-section">
@@ -41,25 +19,28 @@
       </view>
     </view>
 
-    <!-- 阅读进度卡片 -->
-    <view class="stats-card">
-      <view class="stats-left">
+    <!-- 阅读进度卡片 - 两个独立卡片 -->
+    <view class="stats-wrapper">
+      <!-- 左卡片：阅读进度 -->
+      <view class="stats-card stats-card-left">
         <text class="stats-title">阅读进度</text>
-        <view class="progress-row">
-          <text class="progress-label">已读文章</text>
-          <text class="progress-value">{{readArticles}}/{{totalArticles}}</text>
-        </view>
-        <view class="progress-bar">
-          <view class="progress-fill" style="width: {{progressPercent}}%;"></view>
+        <view class="progress-section">
+          <view class="progress-info">
+            <text class="progress-label">已读文章</text>
+            <text class="progress-value">{{readArticles || '220'}}/{{totalArticles || '3000'}}</text>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{progressPercent || 7}}%;"></view>
+          </view>
         </view>
       </view>
-      <view class="stats-divider"></view>
-      <view class="stats-right">
+      <!-- 右卡片：你已阅读 -->
+      <view class="stats-card stats-card-right">
         <text class="stats-title">你已阅读</text>
         <view class="time-row">
-          <text class="time-value">{{readingHours}}</text>
+          <text class="time-value">{{readingHours || '110.2'}}</text>
           <text class="time-unit">小时</text>
-          <text class="time-value">{{readingDays}}</text>
+          <text class="time-value time-days">{{readingDays || '30'}}</text>
           <text class="time-unit">天</text>
         </view>
       </view>
@@ -67,16 +48,16 @@
 
     <!-- 会员横幅 -->
     <view class="member-banner" bindtap="goToMembership">
-      <image src="/images/icons/crown.svg" class="member-icon" mode="aspectFit" />
+      <image src="/images/icons/crown-member.svg" class="member-icon" mode="aspectFit" />
       <text class="member-text">成为会员 解锁全部内容</text>
     </view>
 
     <!-- 菜单列表 -->
-    <scroll-view class="menu-list" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="menu-list">
       <!-- 深色模式 -->
       <view class="menu-item">
         <view class="menu-left">
-          <image src="/images/icons/moon.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-darkmode{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">深色模式</text>
         </view>
         <switch class="dark-switch" checked="{{darkMode}}" bindchange="toggleDarkMode" color="#D7942B" />
@@ -85,7 +66,7 @@
       <!-- 我的收藏 -->
       <view class="menu-item" bindtap="goToFavorites">
         <view class="menu-left">
-          <image src="/images/icons/star-outline.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-favorites{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">我的收藏</text>
         </view>
         <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
@@ -94,7 +75,7 @@
       <!-- 消息提醒 -->
       <view class="menu-item" bindtap="goToMessages">
         <view class="menu-left">
-          <image src="/images/icons/bell.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-messages{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">消息提醒</text>
         </view>
         <view class="menu-right">
@@ -108,7 +89,7 @@
       <!-- 浏览记录 -->
       <view class="menu-item" bindtap="goToHistory">
         <view class="menu-left">
-          <image src="/images/icons/clock.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-history{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">浏览记录</text>
         </view>
         <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
@@ -117,7 +98,7 @@
       <!-- 付款记录 -->
       <view class="menu-item" bindtap="goToPayments">
         <view class="menu-left">
-          <image src="/images/icons/receipt.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-payments{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">付款记录</text>
         </view>
         <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
@@ -126,15 +107,15 @@
       <!-- 设置 -->
       <view class="menu-item" bindtap="goToSettings">
         <view class="menu-left">
-          <image src="/images/icons/settings.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/images/icons/profile-settings{{darkMode ? '-dark' : ''}}.svg" class="menu-icon" mode="aspectFit" />
           <text class="menu-text">设置</text>
         </view>
         <image src="/images/icons/arrow-right-small.svg" class="menu-arrow" mode="aspectFit" />
       </view>
+    </view>
 
-      <!-- 底部安全区域 -->
-      <view class="safe-bottom"></view>
-    </scroll-view>
+    <!-- 底部安全区域 -->
+    <view class="safe-bottom"></view>
 
     <!-- 底部 TabBar (复用组件) -->
     <tab-bar current="{{3}}" darkMode="{{darkMode}}" />

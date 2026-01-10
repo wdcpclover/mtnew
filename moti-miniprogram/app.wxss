@@ -93,8 +93,10 @@ page, .page {
   --card-border: transparent;
 
   /* 胶囊 */
-  --capsule-bg: #F4F4F4;
-  --capsule-border: transparent;
+  --capsule-bg: #FFFFFF;
+  --capsule-border: rgba(0, 0, 0, 0.1);
+  --capsule-icon: #1F1F1F;
+  --capsule-divider: #1F1F1F;
 
   /* 兼容旧变量 */
   --accent-color: var(--color-primary);
@@ -160,8 +162,10 @@ page.dark, .page.dark {
   --card-border: #333333;
 
   /* 胶囊 */
-  --capsule-bg: #333333;
-  --capsule-border: #444444;
+  --capsule-bg: #1A191F;
+  --capsule-border: rgba(255, 255, 255, 0.1);
+  --capsule-icon: #FFFFFF;
+  --capsule-divider: #F2F2F2;
 }
 
 /* ============ 通用组件样式 ============ */

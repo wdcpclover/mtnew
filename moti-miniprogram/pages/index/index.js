@@ -171,5 +171,22 @@ Page({
   openQuestion(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({ url: '/pages/article/article?id=' + id })
+  },
+
+  // ============ 分享 ============
+
+  onShareAppMessage() {
+    return {
+      title: 'Moti 之地 - 发现有趣的问答',
+      path: '/pages/index/index',
+      imageUrl: '/images/share-cover.png'
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: 'Moti 之地 - 发现有趣的问答',
+      imageUrl: '/images/share-cover.png'
+    }
   }
 })

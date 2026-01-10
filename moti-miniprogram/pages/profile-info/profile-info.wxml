@@ -1,4 +1,4 @@
-<page class="{{darkMode ? 'dark' : ''}}">
+<view class="page {{darkMode ? 'dark' : ''}}">
   <view class="page-container">
     <!-- 顶部导航 -->
     <nav-bar title="基本信息" />
@@ -63,4 +63,4 @@
       </view>
     </scroll-view>
   </view>
-</page>
+</view>
