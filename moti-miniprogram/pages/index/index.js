@@ -8,8 +8,6 @@ const api = require('../../utils/api')
 Page({
   data: {
     darkMode: false,
-    statusBarHeight: 0,
-    canGoBack: false,
     activeTab: 'latest',
     questions: [],
     loading: false,
@@ -20,27 +18,27 @@ Page({
   },
 
   onLoad() {
-    const systemInfo = wx.getSystemInfoSync()
-    const pages = getCurrentPages()
-    const statusBarHeight = systemInfo.statusBarHeight
-    // Custom nav bar height usually includes status bar + 44px (standard title bar height)
-    // We use a safe estimate or platform specific. 44px is standard for iOS/Android in Wechat mostly.
-    const navContentHeight = 44 
-    const navBarHeight = statusBarHeight + navContentHeight
-
-    this.setData({
-      darkMode: app.globalData.darkMode || false,
-      statusBarHeight: statusBarHeight,
-      navBarHeight: navBarHeight,
-      canGoBack: pages.length > 1
-    })
-
+    const darkMode = app.globalData.darkMode || false
+    this.setData({ darkMode })
+    this.updateNavBarColor(darkMode)
     this.loadQuestions()
   },
 
   onShow() {
-    this.setData({
-      darkMode: app.globalData.darkMode || false
+    const darkMode = app.globalData.darkMode || false
+    this.setData({ darkMode })
+    this.updateNavBarColor(darkMode)
+  },
+
+  // 更新系统导航栏/胶囊颜色
+  updateNavBarColor(darkMode) {
+    wx.setNavigationBarColor({
+      frontColor: darkMode ? '#ffffff' : '#000000',
+      backgroundColor: darkMode ? '#000000' : '#FFFFFF',
+      animation: {
+        duration: 200,
+        timingFunc: 'easeIn'
+      }
     })
   },
 

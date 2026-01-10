@@ -59,7 +59,7 @@ Page({
   updateNavBarColor(darkMode) {
     wx.setNavigationBarColor({
       frontColor: darkMode ? '#ffffff' : '#000000',
-      backgroundColor: darkMode ? '#1C1C1C' : '#FFFFFF',
+      backgroundColor: darkMode ? '#000000' : '#FFFFFF',
       animation: {
         duration: 200,
         timingFunc: 'easeIn'

@@ -155,17 +155,21 @@ function px2rpx(px) {
 |-----|------|-------|------|
 | title | String | '' | 导航栏标题 |
 | showBack | Boolean | true | 是否显示返回按钮 |
-| showCapsule | Boolean | false | 是否显示右侧胶囊 |
 | transparent | Boolean | false | 是否透明背景 |
 | darkMode | Boolean | false | 是否暗色模式 |
 
-**事件：**
-| 事件 | 说明 |
-|-----|------|
-| bindshare | 点击分享按钮触发 |
+**系统胶囊颜色切换：**
+使用微信 API 动态切换系统胶囊颜色（在页面 JS 中调用）：
+```javascript
+updateNavBarColor(darkMode) {
+  wx.setNavigationBarColor({
+    frontColor: darkMode ? '#ffffff' : '#000000',
+    backgroundColor: darkMode ? '#000000' : '#FFFFFF',
+    animation: { duration: 200, timingFunc: 'easeIn' }
+  })
+}
+```
 
-**胶囊图标文件：**
-- `/images/icons/nav-share-light.svg` (#1F1F1F)
-- `/images/icons/nav-share-dark.svg` (#FFFFFF)
-- `/images/icons/nav-close-light.svg` (#1F1F1F)
-- `/images/icons/nav-close-dark.svg` (#FFFFFF)
+**已应用页面：**
+- `pages/index/index` - 首页（最新）
+- `pages/profile/profile` - 我的页面

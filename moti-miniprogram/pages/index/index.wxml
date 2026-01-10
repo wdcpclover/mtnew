@@ -1,21 +1,11 @@
 <!-- 最新页面 - 1:1 还原 -->
 <view class="page {{darkMode ? 'dark' : ''}}">
+  <!-- 导航栏组件 -->
+  <nav-bar title="莫提之地" darkMode="{{darkMode}}" showBack="{{true}}" />
+
   <view class="container">
 
-    <!-- 顶部导航栏 (灰色背景) -->
-    <view class="nav-header" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
-      <view class="nav-left">
-        <!-- Back button logic here if needed, usually hidden on index -->
-      </view>
-      <view class="nav-center">
-        <text class="nav-title">莫提之地</text>
-      </view>
-      <view class="nav-right">
-        <!-- Capsule placeholder if needed for spacing -->
-      </view>
-    </view>
-
-    <!-- 搜索栏区域 (白色圆角块) -->
+    <!-- 搜索栏区域 (紧接导航栏) -->
     <view class="search-section">
       <view class="search-input-wrapper" bindtap="goToSearch">
         <image src="/images/icons/search-bar-icon{{darkMode ? '-dark' : ''}}.svg" class="search-icon" mode="aspectFit" />
